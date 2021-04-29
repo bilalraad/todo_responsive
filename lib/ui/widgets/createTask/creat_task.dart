@@ -8,7 +8,7 @@ import '../../../models/task.dart';
 import './datetime_picker_widget.dart';
 import './header_buttons.dart';
 import './priority_widget.dart';
-import 'category_dropdown.dart';
+import './category_dropdown.dart';
 
 ///This func. is used to create or update a task form the ui side
 void updateTaskModalBottomSheet(
@@ -43,7 +43,7 @@ void updateTaskModalBottomSheet(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           content: StatefulBuilder(builder: (context, modalSetState) {
             return Container(
-                height: _height >= 750 ? _height * 0.8 : _height * 0.8,
+                height: _height * 0.8,
                 width: 400,
                 child: Column(children: <Widget>[
                   CustomText(
@@ -59,10 +59,12 @@ void updateTaskModalBottomSheet(
                           child: TextFormField(
                             initialValue: newTask.title,
                             autofocus: false,
-                            onChanged: (value) =>
-                                newTask = newTask.copyWith(title: value),
+                            onChanged: (value) {
+                              modalSetState(() =>
+                                  newTask = newTask.copyWith(title: value));
+                            },
                             validator: (value) {
-                              if (value == null || value.isEmpty) {
+                              if (newTask.title.isEmpty) {
                                 return 'Please enter the title'.tr;
                               }
                               return null;
@@ -77,8 +79,8 @@ void updateTaskModalBottomSheet(
                           child: TextFormField(
                             initialValue: newTask.body,
                             autofocus: false,
-                            onChanged: (value) =>
-                                newTask = newTask.copyWith(body: value),
+                            onChanged: (value) => modalSetState(
+                                () => newTask = newTask.copyWith(title: value)),
                             maxLines: 3,
                             decoration: InputDecoration(
                                 hintText: "Task note".tr,

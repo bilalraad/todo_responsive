@@ -70,8 +70,8 @@ class _PomodoroState extends State<Pomodoro> {
                                   ),
                                   Center(
                                     child: CustomText(
-                                      text:
-                                          "${toTwoDigits(pc.timeInMinute)} :${toTwoDigits(pc.seconds)}",
+                                      text: '',
+                                      // "${toTwoDigits(pc.timeInMinute)} :${toTwoDigits(pc.seconds)}",
                                       fontSize: 50.0,
                                       textDirection: TextDirection.ltr,
                                     ),
@@ -116,13 +116,13 @@ class _PomodoroState extends State<Pomodoro> {
                       setState(() {
                         isWork = true;
                       });
-                      PomodoroController.to.startTimer();
+                      // PomodoroController.to.startTimer();
                     }
               : () {
                   setState(() {
                     isWork = false;
                   });
-                  PomodoroController.to.stopTimer();
+                  // PomodoroController.to.stopTimer();
                 }),
     );
   }

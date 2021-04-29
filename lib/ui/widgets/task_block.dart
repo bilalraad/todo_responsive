@@ -28,12 +28,12 @@ class _TaskBlockState extends State<TaskBlock>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 400),
+      duration: const Duration(milliseconds: 600),
       vsync: this,
     );
     _offsetAnimation = Tween<Offset>(
       begin: Offset.zero,
-      end: const Offset(-1.0, 0.0),
+      end: const Offset(-2.0, 0.0),
     ).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.ease,

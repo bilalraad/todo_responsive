@@ -26,7 +26,18 @@ class CustomNavBar extends StatelessWidget {
                     : Color(0xFFC1C1C1),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10))),
-            child: navBarItems[index],
+            child: Stack(
+              alignment: Alignment.centerLeft,
+              children: [
+                if (selectedIndex == index)
+                  Container(
+                    width: 10,
+                    height: 100,
+                    color: Theme.of(context).accentColor,
+                  ),
+                navBarItems[index],
+              ],
+            ),
           )
       ];
     }

@@ -29,7 +29,7 @@ class TaskController extends GetxController {
   Future<void> saveTask(Task task) async {
     try {
       _tasks.add(task);
-      update(['tasks2', "calendar"]);
+      update(['tasks', "calendar"]);
       _taskBox.put(task.id, task.toMap());
     } catch (e) {
       print(e.toString());
@@ -48,12 +48,12 @@ class TaskController extends GetxController {
     }
   }
 
-  ///To update new task by Id and save it on the local DB
+  ///To update new task and save it on the local DB
   Future<void> updateTask(Task task) async {
     try {
       var index = _tasks.indexWhere((t) => t.id == task.id);
       _tasks[index] = task;
-      update(['tasks2', 'calendar']);
+      update(['tasks', 'calendar']);
       _taskBox.put(task.id, task.toMap());
     } catch (e) {
       print(e.toString());

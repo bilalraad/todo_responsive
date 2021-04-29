@@ -31,12 +31,11 @@ class CustomText extends StatelessWidget {
       padding: padding ?? const EdgeInsets.all(0),
       child: GetX<SettingsController>(
         builder: (s) {
-          String color = s.prefColor.value;
           return Text(
             text.tr,
             style: TextStyle(
-              color: iprefText ? Color(int.parse(color)) : textColor,
-              fontSize: fontSize,
+              color: iprefText ? Theme.of(context).accentColor : textColor,
+              fontSize: fontSize ?? 18,
               fontFamily: s.locale.languageCode == 'ar' ? 'Cairo' : 'OpenSans',
               fontWeight: fontWeight,
             ),

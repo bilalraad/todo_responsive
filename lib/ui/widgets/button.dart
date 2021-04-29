@@ -31,7 +31,10 @@ class Custombutton extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
             )),
-        child: CustomText(text: lable, fontSize: fontSize ?? 14),
+        child: CustomText(
+            text: lable,
+            fontSize: fontSize ?? 14,
+            textColor: Theme.of(context).textTheme.button.color),
       ),
     );
   }

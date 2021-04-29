@@ -31,11 +31,13 @@ class HeaderButtons extends StatelessWidget {
                   lable: "Delete",
                   color: Color(0xFFD8334F),
                   onPressed: () async {
-                    await tc.deleteTask(newTask.id);
+                    await tc.deleteTask(oldTask.id);
                     Navigator.pop(context);
                   }),
             Custombutton(
               onPressed: () {
+                print(newTask);
+
                 if (!_formKey.currentState.validate()) {
                   return;
                 }
@@ -43,8 +45,9 @@ class HeaderButtons extends StatelessWidget {
                   Navigator.of(context).pop();
                   return;
                 } else if (oldTask == null) {
+                  print(newTask.title);
                   tc.saveTask(newTask);
-                  Navigator.of(context).pop();
+                  // Navigator.of(context).pop();
                   return;
                 }
 

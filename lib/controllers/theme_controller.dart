@@ -1,5 +1,3 @@
-// we use provider to manage the app state
-
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -7,6 +5,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
+
+final List<int> prefrencesColorsDark = [
+  0xFF86C691,
+  0xFFF8B32A,
+  0xFF80D8FF,
+  0xFFF1B5AC,
+];
+final List<int> prefrencesColorsLight = [
+  0xFF3E844F,
+  0xFFA3007A,
+  0xFF005D85,
+  0xFF000000,
+];
 
 class SettingsController extends GetxController {
   ///to use SettingsController.to instead Get.find<SettingsController>()
@@ -29,19 +40,20 @@ class SettingsController extends GetxController {
   }
 
   Box settings;
-  final prefColor = '0xFF86C691'.obs;
+  final _prefColor = 0xFF86C691.obs;
   final _themeMode = ThemeMode.system.obs;
   final _locale = Locale('en').obs;
   final _firstTime = true.obs;
   Locale get locale => _locale.value;
   ThemeMode get themeMode => _themeMode.value;
   bool get firstTime => _firstTime.value;
+  int get prefColor => _prefColor.value;
 
   Future<void> setThemeMode(ThemeMode themeMode) async {
     Get.changeThemeMode(themeMode);
     _themeMode.value = themeMode;
+    _switchPrefColorsWhenThemeChange(themeMode);
     update();
-    // settings = await Hive.openBox('settings');
     await settings.put('theme', describeEnum(themeMode));
   }
 
@@ -62,14 +74,28 @@ class SettingsController extends GetxController {
   }
 
   Future<void> setLocale(Locale newLocale) async {
-    Get.updateLocale(newLocale);
-    _locale.value = newLocale;
-    update();
-    // settings = await Hive.openBox('settings');
-    await settings.put('languageCode', newLocale.languageCode);
+    if (newLocale != _locale.value) {
+      Get.updateLocale(newLocale);
+      _locale.value = newLocale;
+      update();
+      // settings = await Hive.openBox('settings');
+      await settings.put('languageCode', newLocale.languageCode);
+    }
   }
 
-  _getlocaleFromDataBase() async {
+  ///each theme has diffrerent prefrance colors so this function handels
+  ///the switching with he correct index value
+  Future<void> _switchPrefColorsWhenThemeChange(ThemeMode mode) async {
+    if (mode == ThemeMode.dark) {
+      final index = prefrencesColorsLight.indexOf(_prefColor.value);
+      if (index != -1) await setPrefColor(prefrencesColorsDark[index]);
+    } else {
+      final index = prefrencesColorsDark.indexOf(_prefColor.value);
+      if (index != -1) await setPrefColor(prefrencesColorsLight[index]);
+    }
+  }
+
+  void _getlocaleFromDataBase() async {
     Locale locale;
     String languageCode =
         settings.get('languageCode') ?? Get.locale.languageCode;
@@ -81,20 +107,21 @@ class SettingsController extends GetxController {
     setLocale(locale);
   }
 
-  Future<void> setPrefColor(String newPrefColor) async {
-    prefColor.value = newPrefColor;
-    // settings = await Hive.openBox('settings');
-    await settings.put('prefrencesColor', newPrefColor);
+  Future<void> setPrefColor(int newPrefColor) async {
+    if (newPrefColor != _prefColor.value) {
+      _prefColor.value = newPrefColor;
+      await settings.put('prefrencesColor', newPrefColor);
+    }
   }
 
   _getPrefColorFromDataBase() async {
-    String prefColor;
-    String dbPrefColor = settings.get('prefrencesColor') ??
-        (Get.isDarkMode ? '0xFF86C691' : '0xFF3E844F');
+    int prefColor;
+    int dbPrefColor = settings.get('prefrencesColor') ??
+        (Get.isDarkMode ? 0xFF86C691 : 0xFF3E844F);
     try {
       prefColor = dbPrefColor;
     } catch (e) {
-      prefColor = '0xFF86C691';
+      prefColor = 0xFF86C691;
     }
     setPrefColor(prefColor);
   }
