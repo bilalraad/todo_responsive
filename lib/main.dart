@@ -23,7 +23,7 @@ void main() {
     ScreenBreakpoints(desktop: 900, tablet: 550, watch: 100),
   );
   Get.lazyPut<SettingsController>(() => SettingsController());
-  Get.put<TaskController>(TaskController());
+  Get.lazyPut<TaskController>(() => TaskController());
   Get.put<PomodoroController>(PomodoroController());
   runApp(TodoResponsive());
 }

@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:todo_responsive/controllers/task_controller.dart';
 import 'package:todo_responsive/models/task.dart';
-import 'package:todo_responsive/ui/web/nav_bar.dart';
+import 'package:todo_responsive/ui/widgets/nav_bar.dart';
 
 import './calendar.dart';
 import 'settings/settings.dart';
-import './Pomodoro.dart';
-import 'tasks_list_page.dart';
+import 'Pomodoro_tab.dart';
+import 'tasks_tab.dart';
 
 class BottomNav {
   final String name;
@@ -281,14 +281,9 @@ class InnerRouterDelegate extends RouterDelegate<TodoRoutePath>
       pages: [
         if (appState.selectedIndex == 0) ...[
           FadeAnimationPage(
-            child: TasksListPage(),
+            child: TasksTab(),
             key: ValueKey('TaskListPage'),
           ),
-          // if (appState.selectedTask != null)
-          //   MaterialPage(
-          //     key: ValueKey(appState.selectedTask),
-          //     child: TaskDetailsScreen(task: appState.selectedTask),
-          //   ),
         ] else if (appState.selectedIndex == 1)
           FadeAnimationPage(
             child: CalendartTap(),
@@ -296,7 +291,7 @@ class InnerRouterDelegate extends RouterDelegate<TodoRoutePath>
           )
         else if (appState.selectedIndex == 2)
           FadeAnimationPage(
-            child: Pomodoro(),
+            child: PomodoroTab(),
             key: ValueKey('PomodoroPage'),
           )
         else
@@ -318,12 +313,6 @@ class InnerRouterDelegate extends RouterDelegate<TodoRoutePath>
     // This is not required for inner router delegate because it does not
     // parse route
     assert(false);
-  }
-
-//TODO: open task details popup
-  void _handleTaskTapped(Task task) {
-    appState.selectedTask = task;
-    notifyListeners();
   }
 }
 

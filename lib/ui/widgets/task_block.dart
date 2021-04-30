@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get_navigation/src/routes/default_transitions.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../controllers/task_controller.dart';
 import '../../models/date_formatter.dart';
@@ -22,7 +24,7 @@ class TaskBlock extends StatefulWidget {
 class _TaskBlockState extends State<TaskBlock>
     with SingleTickerProviderStateMixin {
   AnimationController _controller;
-  Animation<Offset> _offsetAnimation;
+  Animation<double> _opacityAnimation;
 
   @override
   void initState() {
@@ -31,9 +33,9 @@ class _TaskBlockState extends State<TaskBlock>
       duration: const Duration(milliseconds: 600),
       vsync: this,
     );
-    _offsetAnimation = Tween<Offset>(
-      begin: Offset.zero,
-      end: const Offset(-2.0, 0.0),
+    _opacityAnimation = Tween<double>(
+      begin: 1,
+      end: 0,
     ).animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.ease,
@@ -48,54 +50,75 @@ class _TaskBlockState extends State<TaskBlock>
 
   @override
   Widget build(BuildContext context) {
-    return SlideTransition(
-      position: _offsetAnimation,
+    return FadeTransition(
+      opacity: _opacityAnimation,
       key: widget.key,
-      child: Card(
-        margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-        child: ListTile(
+      child: Container(
+        width: getValueForScreenType<double>(
+            context: context,
+            mobile: double.infinity,
+            desktop: 440,
+            tablet: double.infinity),
+        margin: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          color: Theme.of(context).primaryColor,
+          borderRadius: BorderRadius.circular(15),
+          boxShadow: [
+            BoxShadow(
+                blurRadius: 6, offset: Offset(0, 0), color: Colors.black26)
+          ],
+        ),
+        padding: const EdgeInsets.all(10.0),
+        child: InkWell(
           onTap: () => updateTaskModalBottomSheet(
               context: context, oldTask: widget.taskData),
-          leading: CircleCheckbox(
-            value: widget.taskData.isFinished,
-            onChanged: (value) async {
-              await _controller.forward();
-              TaskController.to
-                  .updateTask(widget.taskData.copyWith(isFinished: value));
-            },
-          ),
-          title: CustomText(text: widget.taskData.title, fontSize: 20),
-          subtitle: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Row(
             children: [
-              CustomText(
-                  text: widget.taskData.body.isEmpty
-                      ? 'No description'
-                      : widget.taskData.body.length > 20
-                          ? widget.taskData.body.substring(0, 20)
-                          : widget.taskData.body,
-                  fontSize: 15),
-              CustomText(
-                  text: CustomDateFormatter.format(widget.taskData.dueDate),
-                  iprefText: true),
-            ],
-          ),
-          trailing: Container(
-            height: 30,
-            width: 70,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(100),
-                color: widget.taskData.priority == TaskPriority.high
-                    ? Colors.red
-                    : widget.taskData.priority == TaskPriority.medium
-                        ? Colors.amber
-                        : Colors.green),
-            child: Center(
-              child: CustomText(
-                text: describeEnum(widget.taskData.priority),
-                textColor: Colors.white,
+              CircleCheckbox(
+                value: widget.taskData.isFinished,
+                onChanged: (value) async {
+                  await _controller.forward();
+                  TaskController.to
+                      .updateTask(widget.taskData.copyWith(isFinished: value));
+                },
               ),
-            ),
+              SizedBox(width: 10),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  CustomText(text: widget.taskData.title, fontSize: 20),
+                  CustomText(
+                      text: widget.taskData.body.isEmpty
+                          ? 'No description'
+                          : widget.taskData.body.length > 20
+                              ? widget.taskData.body.substring(0, 20)
+                              : widget.taskData.body,
+                      fontSize: 15),
+                  CustomText(
+                      text: CustomDateFormatter.format(widget.taskData.dueDate),
+                      iprefText: true),
+                ],
+              ),
+              Spacer(),
+              Container(
+                height: 30,
+                width: 90,
+                alignment: Alignment.centerRight,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(5),
+                    color: widget.taskData.priority == TaskPriority.high
+                        ? Color(0xFFD8334F)
+                        : widget.taskData.priority == TaskPriority.medium
+                            ? Color(0xFFE3A224)
+                            : Color(0xFF66C749)),
+                child: Center(
+                  child: CustomText(
+                    text: describeEnum(widget.taskData.priority),
+                    textColor: Colors.black,
+                  ),
+                ),
+              ),
+            ],
           ),
         ),
       ),

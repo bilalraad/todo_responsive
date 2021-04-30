@@ -8,7 +8,7 @@ class TaskController extends GetxController {
   static TaskController get to => Get.find();
 
   final _tasks = <Task>[].obs;
-  final _taskLists = <String>['Default'].obs;
+  final _taskLists = <String>["Default", "Personal", "Work"].obs;
   Box _taskBox;
   Box _taskListsBox;
 
@@ -21,27 +21,28 @@ class TaskController extends GetxController {
     //To make sure the is only one instance of the sqflite db for the entire app
     _taskBox = await Hive.openBox('tasks');
     _taskListsBox = await Hive.openBox('taskLists');
-    _tasks.assignAll(await _getAllTasks() ?? []);
-    _getTaskLists();
+    _tasks.assignAll(await _getAllTasks());
+    update(["tasks", "calendar"]);
+    await _getTaskLists();
   }
 
   ///To creat new task and save it on the local DB
   Future<void> saveTask(Task task) async {
     try {
       _tasks.add(task);
-      update(['tasks', "calendar"]);
+      print(_tasks.length);
+      update(["tasks", "calendar"]);
       _taskBox.put(task.id, task.toMap());
     } catch (e) {
       print(e.toString());
     }
-    return null;
   }
 
   ///To Delete a task by Id from the local DB
   Future<void> deleteTask(String id) async {
     try {
       _tasks.removeWhere((t) => t.id == id);
-      update(['tasks2', 'calendar']);
+      update(['tasks', 'calendar']);
       _taskBox.delete(id);
     } catch (e) {
       print(e.toString());
@@ -72,9 +73,8 @@ class TaskController extends GetxController {
   Future<List<Task>> _getAllTasks() async {
     try {
       final result = _taskBox.values.toList();
-      print(result);
       // return null;
-      return _listofTasksFromMap(result.asMap());
+      return _listofTasksFromMap(result.asMap()) ?? [];
     } catch (e) {
       print(e.toString());
     }
@@ -89,10 +89,6 @@ class TaskController extends GetxController {
         print(result);
         result.forEach((listM) {
           _taskLists.add(listM);
-        });
-      } else if (SettingsController.to.firstTime) {
-        ["Personal", "Work"].forEach((ln) async {
-          await addNewList(ln);
         });
       }
     } catch (e) {

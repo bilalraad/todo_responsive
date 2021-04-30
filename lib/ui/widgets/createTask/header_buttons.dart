@@ -36,8 +36,6 @@ class HeaderButtons extends StatelessWidget {
                   }),
             Custombutton(
               onPressed: () {
-                print(newTask);
-
                 if (!_formKey.currentState.validate()) {
                   return;
                 }
@@ -45,14 +43,14 @@ class HeaderButtons extends StatelessWidget {
                   Navigator.of(context).pop();
                   return;
                 } else if (oldTask == null) {
-                  print(newTask.title);
                   tc.saveTask(newTask);
-                  // Navigator.of(context).pop();
+                  Navigator.pop(context);
+
                   return;
                 }
 
                 tc.updateTask(newTask);
-                Navigator.of(context).pop();
+                Navigator.pop(context);
               },
               lable: 'Done',
             ),

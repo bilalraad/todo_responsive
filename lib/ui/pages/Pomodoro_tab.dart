@@ -3,17 +3,17 @@ import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 
-import '../../ui/widgets/custom_text.dart';
+import '../widgets/custom_text.dart';
 import '../../models/clock_dail_painter.dart';
 import '../../controllers/pomodoro_controller.dart';
 
-class Pomodoro extends StatefulWidget {
-  const Pomodoro();
+class PomodoroTab extends StatefulWidget {
+  const PomodoroTab();
   @override
-  _PomodoroState createState() => _PomodoroState();
+  _PomodoroTabState createState() => _PomodoroTabState();
 }
 
-class _PomodoroState extends State<Pomodoro> {
+class _PomodoroTabState extends State<PomodoroTab> {
   bool isWork = false;
 
   String toTwoDigits(int numb) {

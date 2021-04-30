@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 
 import './custom_tepper.dart';
 import './settings_components.dart';
@@ -17,23 +16,15 @@ class SettingsTap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: getValueForScreenType<bool>(
-        context: context,
-        mobile: false,
-        tablet: false,
-        desktop: true,
-      )
-          ? Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: columns,
-            )
-          : SingleChildScrollView(
-              child: Column(
-                // mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: columns,
-              ),
-            ),
+      body: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
+        child: Center(
+          child: Wrap(
+            spacing: 40,
+            children: columns,
+          ),
+        ),
+      ),
     );
   }
 }
