@@ -8,7 +8,6 @@ import '../../models/task.dart';
 import '../widgets/custom_text.dart';
 import '../widgets/createTask/creat_task.dart';
 import '../../controllers/task_controller.dart';
-import '../../controllers/theme_controller.dart';
 
 class CalendartTap extends StatefulWidget {
   const CalendartTap({Key key}) : super(key: key);
@@ -32,31 +31,37 @@ class _CalendartTapState extends State<CalendartTap> {
     return GetBuilder<TaskController>(
         id: 'calendar',
         builder: (taskController) {
-          _events.assignAll(taskController.tasks);
+          _events.assignAll(
+              taskController.tasks.where((t) => !t.isFinished).toList());
           _selectedEvents = _events
               .where((task) => isSameDay(task.dueDate, selectedDate))
               .toList();
 
           return Scaffold(
-            body: Center(
-              child: Wrap(
-                spacing: 40,
-                children: [
-                  CalendarWidget(
-                    events: _events,
-                    onDaySelected: (selectedDay, focusedDay) {
-                      setState(() {
-                        selectedDate = selectedDay;
-                      });
-                    },
+            body: SafeArea(
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Center(
+                  child: Wrap(
+                    spacing: 40,
+                    children: [
+                      CalendarWidget(
+                        events: _events,
+                        onDaySelected: (selectedDay, focusedDay) {
+                          setState(() {
+                            selectedDate = selectedDay;
+                          });
+                        },
+                      ),
+                      TaskList(
+                        tasks: _selectedEvents,
+                        titleBlock: 'There is number tasks on this day'
+                            .trParams({'number': '${_selectedEvents.length}'}),
+                        scrollHieght: MediaQuery.of(context).size.height * 0.8,
+                      ),
+                    ],
                   ),
-                  TaskList(
-                    tasks: _selectedEvents,
-                    titleBlock:
-                        'There is ${_selectedEvents.length} tasks on this day',
-                    scrollHieght: MediaQuery.of(context).size.height * 0.8,
-                  ),
-                ],
+                ),
               ),
             ),
             floatingActionButton: FloatingActionButton(
@@ -86,7 +91,6 @@ class _CalendarWidgetState extends State<CalendarWidget> {
     final selectedColor = Theme.of(context).accentColor;
     final textcolor = Theme.of(context).textTheme.button.color;
     final borderRadius = BorderRadius.circular(5);
-    final _locale = SettingsController.to.locale;
 
     return Container(
       width: getValueForScreenType<double>(
@@ -95,41 +99,43 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(10)),
       margin: EdgeInsets.all(20),
-      padding: EdgeInsets.all(50),
-      child: TableCalendar(
+      padding: EdgeInsets.all(
+        getValueForScreenType<double>(
+            context: context, mobile: 10, tablet: 10, desktop: 50),
+      ),
+      child: TableCalendar<Task>(
+        locale: Get.locale.languageCode,
         daysOfWeekStyle: DaysOfWeekStyle(
-            weekendStyle: TextStyle(
-              color: textcolor,
-              fontFamily: _locale.languageCode == 'ar' ? 'Cairo' : 'OpenSans',
-            ),
-            weekdayStyle: TextStyle(
-              color: textcolor,
-              fontFamily: _locale.languageCode == 'ar' ? 'Cairo' : 'OpenSans',
-            )),
+          weekendStyle: TextStyle(color: textcolor, height: 1, fontSize: 12),
+          weekdayStyle: TextStyle(color: textcolor, height: 1, fontSize: 12),
+        ),
         focusedDay: selectedDate,
         firstDay: DateTime.now().subtract(Duration(days: 1)),
         lastDay: DateTime(2050),
         calendarStyle: CalendarStyle(
-          // canMarkersOverflow: true,
           isTodayHighlighted: true,
-          weekendTextStyle: TextStyle(
-            color: textcolor,
-            fontFamily: _locale.languageCode == 'ar' ? 'Cairo' : 'OpenSans',
+          weekendTextStyle: TextStyle(color: textcolor),
+          selectedDecoration: BoxDecoration(
+            color: selectedColor,
+            // shape: BoxShape.rectangle,
+            // borderRadius: borderRadius,
           ),
-          selectedDecoration:
-              BoxDecoration(color: selectedColor, borderRadius: borderRadius),
           todayDecoration: BoxDecoration(
-              color: selectedColor.withOpacity(0.3),
-              borderRadius: borderRadius),
+            color: selectedColor.withOpacity(0.3),
+            shape: BoxShape.rectangle,
+            borderRadius: borderRadius,
+          ),
         ),
-        headerStyle:
-            const HeaderStyle(formatButtonVisible: false, titleCentered: true),
+        headerStyle: const HeaderStyle(
+          formatButtonVisible: false,
+          titleCentered: true,
+        ),
         calendarBuilders: CalendarBuilders(
           markerBuilder: (context, date, events) {
             Widget marker;
             if (events.isNotEmpty) {
               marker = Positioned(
-                bottom: 8,
+                bottom: 5,
                 child: _buildEventsMarkerNumber(events.length),
               );
             }

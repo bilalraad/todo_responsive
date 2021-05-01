@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum TaskPriority { high, medium, low }
+enum TaskPriority { High, Medium, Low }
 
 ///To convert a string bool (i.e. "true"/"false") to normal boll value
 bool boolParse(String bStr) {

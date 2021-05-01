@@ -2,25 +2,24 @@ import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 
 import '../models/task.dart';
-import './theme_controller.dart';
 
 class TaskController extends GetxController {
   static TaskController get to => Get.find();
 
   final _tasks = <Task>[].obs;
-  final _taskLists = <String>["Default", "Personal", "Work"].obs;
+  final _taskCategories = <String>["Default", "Personal", "Work"].obs;
   Box _taskBox;
-  Box _taskListsBox;
+  Box _taskCategoriesBox;
 
   List<Task> get tasks => _tasks;
-  List<String> get taskLists => _taskLists;
+  List<String> get taskCategories => _taskCategories;
 
   @override
   void onInit() async {
     super.onInit();
     //To make sure the is only one instance of the sqflite db for the entire app
     _taskBox = await Hive.openBox('tasks');
-    _taskListsBox = await Hive.openBox('taskLists');
+    _taskCategoriesBox = await Hive.openBox('taskLists');
     _tasks.assignAll(await _getAllTasks());
     update(["tasks", "calendar"]);
     await _getTaskLists();
@@ -30,7 +29,6 @@ class TaskController extends GetxController {
   Future<void> saveTask(Task task) async {
     try {
       _tasks.add(task);
-      print(_tasks.length);
       update(["tasks", "calendar"]);
       _taskBox.put(task.id, task.toMap());
     } catch (e) {
@@ -84,11 +82,10 @@ class TaskController extends GetxController {
   //this func. shouldn't be used outside the class
   Future<void> _getTaskLists() async {
     try {
-      List result = _taskListsBox.values.toList();
+      List result = _taskCategoriesBox.values.toList();
       if (result != null && result.isNotEmpty) {
-        print(result);
         result.forEach((listM) {
-          _taskLists.add(listM);
+          _taskCategories.add(listM);
         });
       }
     } catch (e) {
@@ -100,10 +97,9 @@ class TaskController extends GetxController {
   ///To add a new list to the App and save it to the local DB
   Future<void> addNewList(String listName) async {
     try {
-      _taskLists.add(listName);
+      _taskCategories.add(listName);
       update(['tasks']);
-      await _taskListsBox.put(listName, listName);
-      print(_taskListsBox.values);
+      await _taskCategoriesBox.put(listName, listName);
     } catch (e) {
       print(e.toString());
     }
@@ -114,12 +110,12 @@ class TaskController extends GetxController {
   ///from the App and the local DB
   Future<void> removeList(String listName) async {
     try {
-      _taskLists.remove(listName);
+      _taskCategories.remove(listName);
       _tasks.forEach((t) {
         if (t.belongsTo == listName) deleteTask(t.id);
       });
       update(['tasks']);
-      _taskListsBox.delete(listName);
+      _taskCategoriesBox.delete(listName);
     } catch (e) {
       print(e.toString());
     }
@@ -129,7 +125,7 @@ class TaskController extends GetxController {
   void close() async {
     try {
       await _taskBox.close();
-      await _taskListsBox.close();
+      await _taskCategoriesBox.close();
     } catch (e) {
       print(e.toString());
     }

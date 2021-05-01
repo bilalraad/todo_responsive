@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import './custom_tepper.dart';
-import './settings_components.dart';
+import 'custom_stepper.dart';
+import 'settings_components.dart';
 import '../../widgets/custom_text.dart';
 import '../../../controllers/theme_controller.dart';
 import '../../../controllers/pomodoro_controller.dart';
@@ -16,12 +16,14 @@ class SettingsTap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Center(
-          child: Wrap(
-            spacing: 40,
-            children: columns,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Center(
+            child: Wrap(
+              spacing: 40,
+              children: columns,
+            ),
           ),
         ),
       ),
@@ -133,7 +135,7 @@ class TimerColumn extends StatelessWidget {
                 upperLimit: 100,
                 iconSize: 30,
               ),
-              label: 'Pmodoro'),
+              label: 'Pomodoro'),
           SettingsCard(
               child: CustomStepper(
                 value: pc.getTimerDurationInMinute(TimerType.shortbreak),

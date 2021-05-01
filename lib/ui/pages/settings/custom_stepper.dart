@@ -31,7 +31,7 @@ class CustomStepper extends StatefulWidget {
     @required this.value,
     @required this.upperLimit,
     @required this.onValueChanged,
-    this.lowerLimit = 0,
+    this.lowerLimit = 1,
     this.stepValue = 1,
     this.iconSize = 8,
   });

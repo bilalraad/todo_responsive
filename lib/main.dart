@@ -2,26 +2,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:hive/hive.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:todo_responsive/ui/pages/home_page.dart';
+import 'package:todo_responsive/home_page.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 import 'controllers/pomodoro_controller.dart';
 import 'controllers/task_controller.dart';
 import 'controllers/theme_controller.dart';
 import 'localization/localizations.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // if (Platform.isAndroid || Platform.isIOS) {
-  //   final appDocumentDirectory =
-  //       await pathProvider.getApplicationDocumentsDirectory();
-  //   Hive.init(appDocumentDirectory.path);
-  // }
   //
   //initialize setting & Task controller lazily
   ResponsiveSizingConfig.instance.setCustomBreakpoints(
     ScreenBreakpoints(desktop: 900, tablet: 550, watch: 100),
   );
+  await Hive.initFlutter();
   Get.lazyPut<SettingsController>(() => SettingsController());
   Get.lazyPut<TaskController>(() => TaskController());
   Get.put<PomodoroController>(PomodoroController());
@@ -50,9 +48,10 @@ class _TodoResponsiveState extends State<TodoResponsive> {
           routeInformationParser: _routeInformationParser,
           // showPerformanceOverlay: true,
           debugShowCheckedModeBanner: false,
-          theme: SettingsController.themeData(true)
+          theme: SettingsController.themeData(true, _.locale)
               .copyWith(accentColor: Color(_.prefColor)),
-          darkTheme: SettingsController.themeData(false)
+
+          darkTheme: SettingsController.themeData(false, _.locale)
               .copyWith(accentColor: Color(_.prefColor)),
           locale: _.locale,
           themeMode: ThemeMode.system,

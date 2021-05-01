@@ -12,9 +12,22 @@ class PomodoroController extends GetxController {
   final _percent = 0.0.obs;
   final _seconds = 0.obs;
   final _minutes = 0.obs;
-  // Timer _timer;
-
+  final _isTimerActive = false.obs;
+  Timer _timer;
+  TimerType _timerType = TimerType.workTime;
+  int _workTime;
+  int _shortBreakTime;
+  int _longBreakTime;
   Box settings;
+
+  double get percent => _percent.value;
+  int get seconds => _seconds.value;
+  int get minutes => _minutes.value;
+  TimerType get timerType => _timerType;
+  bool get isTimerActive => _isTimerActive.value;
+
+  double _currentTotalSeconds;
+
   @override
   onInit() async {
     super.onInit();
@@ -22,29 +35,16 @@ class PomodoroController extends GetxController {
     _workTime = settings.get('workTime') ?? 25;
     _shortBreakTime = settings.get('shortBreakTime') ?? 5;
     _longBreakTime = settings.get('longBreakTime') ?? 15;
+    _minutes.value = _workTime;
+    update(['pomodoro']);
   }
-
-  int _workTime;
-  int _shortBreakTime;
-  int _longBreakTime;
-
-  double get percent => _percent.value;
-  int get seconds => _seconds.value;
-  int get minutes => _minutes.value;
 
   int getTimerDurationInMinute(TimerType type) {
     if (type == TimerType.workTime)
-      return _workTime;
-    else if (type == TimerType.shortbreak) return _shortBreakTime;
-    return _longBreakTime;
+      return _workTime ?? 25;
+    else if (type == TimerType.shortbreak) return _shortBreakTime ?? 5;
+    return _longBreakTime ?? 15;
   }
-
-  // _initTimer() {
-  //   _percent.value = 0;
-  //   _workTime = 1;
-  //   // _timeInSec = _workTime.value * 60 == 0 ? 60 : _workTime.value * 60;
-  //   _seconds.value = 0;
-  // }
 
   double getDurationInSeconds(TimerType type) {
     int _timeInMinute = 0;
@@ -54,57 +54,71 @@ class PomodoroController extends GetxController {
       _timeInMinute = _longBreakTime;
     else
       _timeInMinute = _shortBreakTime;
+
     return Duration(minutes: _timeInMinute).inSeconds.toDouble();
   }
 
-  void startTimer(TimerType type) {
-    // _timeInSec = Duration(minutes: _workTime.value).inSeconds;
-    final seconds = getDurationInSeconds(type);
-    _minutes.value = getTimerDurationInMinute(type);
-    Timer sTimer;
-    Timer.periodic(const Duration(minutes: 1), (minutesTimer) {
-      _minutes.value--;
-      _seconds.value = 60;
-      if (!sTimer.isBlank && sTimer.isActive) sTimer.cancel();
+  void startTimer() {
+    _isTimerActive.value = true;
+    update(['timerBtns']);
 
-      sTimer = Timer.periodic(const Duration(seconds: 1), (secondsTimer) {
-        if (_minutes.value <= 0) minutesTimer.cancel();
+    if (_currentTotalSeconds == null)
+      _currentTotalSeconds = getDurationInSeconds(_timerType);
+    _minutes.value = getTimerDurationInMinute(_timerType);
+    _minutes.value--;
+
+    if (_seconds.value == 0) _seconds.value = 60;
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (minutesTimer) {
         _seconds.value--;
-        _percent.value = 1 - (seconds / getDurationInSeconds(type));
-        update(['workTime']);
-      });
-
-      // if (_seconds.value > 0) {
-      //   _seconds.value--;
-      //   if (_seconds.value <= 1) {
-      //     //reset the second
-      //     _seconds.value = 59;
-      //     if (_workTime.value > 0) _workTime.value--;
-      //   }
-
-      // } else {
-      //   // FlutterRingtonePlayer.playAlarm();
-      //   _initTimer();
-      //   timer.cancel();
-      // }
-    });
+        _currentTotalSeconds--;
+        if (_seconds.value == 0) {
+          _seconds.value = 60;
+          _minutes.value--;
+        }
+        _percent.value =
+            1 - (_currentTotalSeconds / getDurationInSeconds(_timerType));
+        if (_currentTotalSeconds == 0) stopTimer();
+        update(['pomodoro']);
+      },
+    );
   }
 
-  // void stopTimer() {
-  //   _initTimer();
-  //   update(['workTime']);
+  void stopTimer() {
+    _percent.value = 0.0;
+    _seconds.value = 0;
+    _minutes.value = getTimerDurationInMinute(_timerType);
+    _isTimerActive.value = false;
+    update(['pomodoro', 'timerBtns']);
+    _currentTotalSeconds = null;
+    // FlutterRingtonePlayer.stop();
+    if (_timer != null) {
+      _timer.cancel();
+      _timer = null;
+    }
+  }
 
-  //   // FlutterRingtonePlayer.stop();
-  //   if (_timer != null) {
-  //     _timer.cancel();
-  //     _timer = null;
-  //   }
-  // }
+  void pauseTimer() {
+    // FlutterRingtonePlayer.stop();
+    if (_timer != null) {
+      _timer.cancel();
+      _timer = null;
+    }
+  }
+
+  void changeType(TimerType type) {
+    _minutes.value = getTimerDurationInMinute(type);
+    _timerType = type;
+    stopTimer();
+    update(['pomodoro']);
+  }
 
   void changeTimertime(int value, TimerType type) {
     if (type == TimerType.workTime) {
       settings.put('workTime', value);
       _workTime = value;
+      _minutes.value = value;
     } else if (type == TimerType.longBreak) {
       settings.put('longBreakTime', value);
       _longBreakTime = value;
@@ -112,6 +126,5 @@ class PomodoroController extends GetxController {
       settings.put('shortBreakTime', value);
       _shortBreakTime = value;
     }
-    print(settings.get('workTime'));
   }
 }

@@ -24,15 +24,19 @@ class ClockDialPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     var tickMarkLength;
     final angle = 2 * pi / 60;
-    final radius = (size.width / 2) - 20;
-    final radius2 = (size.height / 2) - 80;
-    circlePaint.shader = ui.Gradient.linear(Offset(0.0, radius2),
-        Offset(0.0, -radius2), [Colors.greenAccent, Colors.blueAccent]);
-
+    final radius = (size.width / 2);
+    final radius2 = (size.height / 2);
+    circlePaint.shader = ui.Gradient.linear(
+      Offset(0.0, radius2),
+      Offset(0.0, -radius2),
+      [Color(0xFF80D8FF), Color(0xFF86C691)],
+    );
+    circlePaint.strokeWidth = 15;
     canvas.save();
     // drawing
-    canvas.translate(radius + 20, radius2);
+    canvas.translate(radius, radius2);
     canvas.drawCircle(Offset(0, 0), radius - 20, circlePaint);
+
     for (var i = 0; i < 60; i++) {
       //make the length and stroke of the tick marker longer and thicker depending
       tickMarkLength = i % 5 == 0 ? hourTickMarkLength : minuteTickMarkLength;
@@ -42,7 +46,8 @@ class ClockDialPainter extends CustomPainter {
           ? ui.Gradient.linear(
               Offset(0.0, radius),
               Offset(0.0, radius + tickMarkLength),
-              [Colors.greenAccent, Colors.blueAccent])
+              [Colors.greenAccent, Colors.blueAccent],
+            )
           : null;
       canvas.drawLine(
         Offset(0.0, radius),

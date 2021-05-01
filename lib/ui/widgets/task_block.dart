@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get_navigation/src/routes/default_transitions.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../controllers/task_controller.dart';
@@ -74,26 +73,31 @@ class _TaskBlockState extends State<TaskBlock>
               context: context, oldTask: widget.taskData),
           child: Row(
             children: [
-              CircleCheckbox(
-                value: widget.taskData.isFinished,
-                onChanged: (value) async {
-                  await _controller.forward();
-                  TaskController.to
-                      .updateTask(widget.taskData.copyWith(isFinished: value));
-                },
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: CircleCheckbox(
+                  value: widget.taskData.isFinished,
+                  onChanged: (value) async {
+                    await _controller.forward();
+                    TaskController.to.updateTask(
+                        widget.taskData.copyWith(isFinished: value));
+                  },
+                ),
               ),
-              SizedBox(width: 10),
+              SizedBox(width: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   CustomText(text: widget.taskData.title, fontSize: 20),
                   CustomText(
-                      text: widget.taskData.body.isEmpty
-                          ? 'No description'
-                          : widget.taskData.body.length > 20
-                              ? widget.taskData.body.substring(0, 20)
-                              : widget.taskData.body,
-                      fontSize: 15),
+                    text: widget.taskData.body.isEmpty
+                        ? 'No description'
+                        : widget.taskData.body.length > 20
+                            ? widget.taskData.body.substring(0, 20)
+                            : widget.taskData.body,
+                    fontSize: 12,
+                    textColor: Color(0xFF878787),
+                  ),
                   CustomText(
                       text: CustomDateFormatter.format(widget.taskData.dueDate),
                       iprefText: true),
@@ -106,9 +110,9 @@ class _TaskBlockState extends State<TaskBlock>
                 alignment: Alignment.centerRight,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
-                    color: widget.taskData.priority == TaskPriority.high
+                    color: widget.taskData.priority == TaskPriority.High
                         ? Color(0xFFD8334F)
-                        : widget.taskData.priority == TaskPriority.medium
+                        : widget.taskData.priority == TaskPriority.Medium
                             ? Color(0xFFE3A224)
                             : Color(0xFF66C749)),
                 child: Center(
@@ -152,7 +156,7 @@ class CircleCheckbox extends StatelessWidget {
       decoration: BoxDecoration(
           border: Border.all(
             color: Theme.of(context).accentColor,
-            width: 1,
+            width: 2,
           ),
           borderRadius: const BorderRadius.all(Radius.circular(20))),
       width: 24,

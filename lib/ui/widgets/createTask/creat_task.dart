@@ -23,7 +23,7 @@ void updateTaskModalBottomSheet(
       id: Uuid().v4(),
       title: '',
       body: '',
-      priority: TaskPriority.low,
+      priority: TaskPriority.Low,
       dueDate: DateTime.now().add(Duration(hours: 1)),
       createdAt: DateTime.now(),
       belongsTo: 'Default',
@@ -45,77 +45,81 @@ void updateTaskModalBottomSheet(
             return Container(
                 height: _height * 0.8,
                 width: 400,
-                child: Column(children: <Widget>[
-                  CustomText(
-                      text: oldTask != null ? "Task Details" : "Creat New Task",
-                      fontSize: 25),
-                  HeaderButtons(
-                      newTask: newTask, oldTask: oldTask, formKey: _formKey),
-                  Form(
-                    key: _formKey,
-                    child: Column(
-                      children: [
-                        BottomCard(
-                          child: TextFormField(
-                            initialValue: newTask.title,
-                            autofocus: false,
-                            onChanged: (value) {
-                              modalSetState(() =>
-                                  newTask = newTask.copyWith(title: value));
-                            },
-                            validator: (value) {
-                              if (newTask.title.isEmpty) {
-                                return 'Please enter the title'.tr;
-                              }
-                              return null;
-                            },
-                            decoration: InputDecoration(
-                              hintText: "Task name".tr,
-                              border: InputBorder.none,
+                child: SingleChildScrollView(
+                  physics: BouncingScrollPhysics(),
+                  child: Column(children: <Widget>[
+                    CustomText(
+                        text:
+                            oldTask != null ? "Task Details" : "Creat New Task",
+                        fontSize: 25),
+                    HeaderButtons(
+                        newTask: newTask, oldTask: oldTask, formKey: _formKey),
+                    Form(
+                      key: _formKey,
+                      child: Column(
+                        children: [
+                          BottomCard(
+                            child: TextFormField(
+                              initialValue: newTask.title,
+                              autofocus: false,
+                              onChanged: (value) {
+                                modalSetState(() =>
+                                    newTask = newTask.copyWith(title: value));
+                              },
+                              validator: (value) {
+                                if (newTask.title.isEmpty) {
+                                  return 'Please enter the title'.tr;
+                                }
+                                return null;
+                              },
+                              decoration: InputDecoration(
+                                hintText: "Task name".tr,
+                                border: InputBorder.none,
+                              ),
                             ),
                           ),
-                        ),
-                        BottomCard(
-                          child: TextFormField(
-                            initialValue: newTask.body,
-                            autofocus: false,
-                            onChanged: (value) => modalSetState(
-                                () => newTask = newTask.copyWith(title: value)),
-                            maxLines: 3,
-                            decoration: InputDecoration(
-                                hintText: "Task note".tr,
-                                border: InputBorder.none),
+                          BottomCard(
+                            child: TextFormField(
+                              initialValue: newTask.body,
+                              autofocus: false,
+                              onChanged: (value) => modalSetState(() =>
+                                  newTask = newTask.copyWith(title: value)),
+                              maxLines: 3,
+                              decoration: InputDecoration(
+                                  hintText: "Task note".tr,
+                                  border: InputBorder.none),
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 20),
-                  PriorityWidget(
-                    onPriprotySelected: (newpriority) {
-                      modalSetState(() => newTask = newTask.copyWith(
-                            priority: newpriority,
-                          ));
-                    },
-                    currentPriority: describeEnum(newTask.priority),
-                  ),
-                  const SizedBox(height: 20),
-                  DateTimePickerWidget(
-                    currentDateTime: newTask.dueDate,
-                    onDateTimeSelected: (newDateTime) {
-                      modalSetState(() => newTask = newTask.copyWith(
-                            dueDate: newDateTime,
-                          ));
-                    },
-                  ),
-                  const SizedBox(height: 20),
-                  CategoryDropDown(
-                      currentCategory: newTask.belongsTo,
-                      onCategorySelected: (newCat) {
-                        modalSetState(() =>
-                            newTask = newTask.copyWith(belongsTo: newCat));
-                      }),
-                ]));
+                    const SizedBox(height: 20),
+                    PriorityWidget(
+                      onPriprotySelected: (newpriority) {
+                        modalSetState(() => newTask = newTask.copyWith(
+                              priority: newpriority,
+                            ));
+                      },
+                      currentPriority: describeEnum(newTask.priority),
+                    ),
+                    const SizedBox(height: 20),
+                    DateTimePickerWidget(
+                      currentDateTime: newTask.dueDate,
+                      onDateTimeSelected: (newDateTime) {
+                        modalSetState(() => newTask = newTask.copyWith(
+                              dueDate: newDateTime,
+                            ));
+                      },
+                    ),
+                    const SizedBox(height: 20),
+                    CategoryDropDown(
+                        currentCategory: newTask.belongsTo,
+                        onCategorySelected: (newCat) {
+                          modalSetState(() =>
+                              newTask = newTask.copyWith(belongsTo: newCat));
+                        }),
+                  ]),
+                ));
           }),
         );
       });

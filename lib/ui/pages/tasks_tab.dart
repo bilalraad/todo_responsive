@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 import '../../models/task.dart';
 import '../widgets/custom_text.dart';
-import '../../models/date_formatter.dart';
 import '../widgets/createTask/creat_task.dart';
 import '../widgets/task_block.dart';
 import '../../controllers/task_controller.dart';
@@ -26,7 +26,6 @@ class _TasksTabState extends State<TasksTab> {
     return GetBuilder<TaskController>(
         id: 'tasks',
         builder: (tc) {
-          print('test');
           List<Task> today = [],
               tomorrow = [],
               later = [],
@@ -35,10 +34,10 @@ class _TasksTabState extends State<TasksTab> {
 
           if (sTasks.isNotEmpty)
             sTasks.forEach((ti) {
-              if (CustomDateFormatter.format(ti.dueDate).contains('Today'))
+              if (isSameDay(ti.dueDate, DateTime.now()))
                 today.add(ti);
-              else if (CustomDateFormatter.format(ti.dueDate)
-                  .contains('Tomorrow'))
+              else if (isSameDay(
+                  ti.dueDate, DateTime.now().add(Duration(days: 1))))
                 tomorrow.add(ti);
               else
                 later.add(ti);
@@ -58,28 +57,30 @@ class _TasksTabState extends State<TasksTab> {
           }
 
           Widget _body() {
-            return Container(
-                width: _width,
-                child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
-                  child: _checkIfEmpty(
-                    child: Center(
-                      child: Wrap(
-                        spacing: 40,
-                        children: [
-                          if (today.isNotEmpty)
-                            TaskList(tasks: today, titleBlock: "Today"),
-                          if (tomorrow.isNotEmpty)
-                            TaskList(tasks: tomorrow, titleBlock: "Tomorrow"),
-                          if (later.isNotEmpty)
-                            TaskList(tasks: later, titleBlock: "Later"),
-                          //in order to be no task under floatingActionButton i added sizedbox
-                          const SizedBox(height: 60),
-                        ],
+            return SafeArea(
+              child: Container(
+                  width: _width,
+                  child: SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: _checkIfEmpty(
+                      child: Center(
+                        child: Wrap(
+                          spacing: 40,
+                          children: [
+                            if (today.isNotEmpty)
+                              TaskList(tasks: today, titleBlock: "Today"),
+                            if (tomorrow.isNotEmpty)
+                              TaskList(tasks: tomorrow, titleBlock: "Tomorrow"),
+                            if (later.isNotEmpty)
+                              TaskList(tasks: later, titleBlock: "Later"),
+                            //in order to be no task under floatingActionButton i added sizedbox
+                            const SizedBox(height: 60),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                ));
+                  )),
+            );
           }
 
           return Scaffold(
@@ -129,11 +130,16 @@ class TaskList extends StatelessWidget {
       children: [
         titleBlock.isEmpty
             ? SizedBox(height: 10)
-            : Container(
-                margin:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                child: CustomText(
-                    text: titleBlock, iprefText: true, fontSize: 22)),
+            : Center(
+                child: Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 10, vertical: 10),
+                    child: CustomText(
+                      text: titleBlock,
+                      iprefText: true,
+                      fontSize: 22,
+                    )),
+              ),
         Scrollbar(
           controller: _scrollController,
           isAlwaysShown: getValueForScreenType<bool>(

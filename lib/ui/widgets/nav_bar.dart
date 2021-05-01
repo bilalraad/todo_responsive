@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
+import 'package:todo_responsive/ui/widgets/custom_text.dart';
 
 class CustomNavBar extends StatelessWidget {
   final Widget selectedWidget;
@@ -21,21 +24,44 @@ class CustomNavBar extends StatelessWidget {
           TextButton(
             onPressed: () => onTaped(index),
             style: TextButton.styleFrom(
-                primary: selectedIndex == index
-                    ? Theme.of(context).accentColor
-                    : Color(0xFFC1C1C1),
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10))),
             child: Stack(
-              alignment: Alignment.centerLeft,
+              alignment: getValueForScreenType<bool>(
+                      context: context,
+                      mobile: false,
+                      desktop: true,
+                      tablet: true)
+                  ? Get.locale.languageCode == 'ar'
+                      ? Alignment.centerRight
+                      : Alignment.centerLeft
+                  : Alignment.bottomCenter,
               children: [
                 if (selectedIndex == index)
-                  Container(
-                    width: 10,
-                    height: 100,
-                    color: Theme.of(context).accentColor,
+                  getValueForScreenType<bool>(
+                          context: context,
+                          mobile: false,
+                          desktop: true,
+                          tablet: true)
+                      ? Container(
+                          width: 5,
+                          height: 100,
+                          color: Theme.of(context).accentColor,
+                        )
+                      : Container(
+                          width: MediaQuery.of(context).size.width * 0.2,
+                          height: 5,
+                          color: Theme.of(context).accentColor,
+                        ),
+                ColorFiltered(
+                  colorFilter: ColorFilter.mode(
+                    selectedIndex == index
+                        ? Theme.of(context).accentColor
+                        : Color(0xFFC1C1C1),
+                    BlendMode.modulate,
                   ),
-                navBarItems[index],
+                  child: navBarItems[index],
+                ),
               ],
             ),
           )
@@ -54,7 +80,7 @@ class CustomNavBar extends StatelessWidget {
               ),
             ),
             Container(
-              height: 60,
+              height: 70,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: _buildItems(),
@@ -65,7 +91,7 @@ class CustomNavBar extends StatelessWidget {
         tablet: Row(
           children: [
             Container(
-              width: 80,
+              // width: 80,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: _buildItems(),
@@ -103,33 +129,39 @@ class CustomNavBar extends StatelessWidget {
 
 class NavigationBarItem extends StatelessWidget {
   final String label;
-  final IconData icon;
+  final String iconPath;
   const NavigationBarItem({
-    this.label,
-    @required this.icon,
+    @required this.label,
+    @required this.iconPath,
   });
 
   @override
   Widget build(BuildContext context) {
+    final size = getValueForScreenType<double>(
+      context: context,
+      mobile: MediaQuery.of(context).size.width * 0.07,
+      tablet: MediaQuery.of(context).size.width * 0.07,
+      desktop: 100,
+    );
     return Container(
         width: getValueForScreenType<double>(
-            context: context, mobile: 100, tablet: 80, desktop: 180),
+            context: context,
+            mobile: MediaQuery.of(context).size.width * 0.2,
+            tablet: 80,
+            desktop: 180),
         child: Column(
           children: [
-            Icon(icon,
-                size: getValueForScreenType<double>(
-                  context: context,
-                  mobile: MediaQuery.of(context).size.width * 0.07,
-                  tablet: MediaQuery.of(context).size.width * 0.07,
-                  desktop: 100,
-                )),
-            Text(label ?? '',
-                style: TextStyle(
-                    fontSize: getValueForScreenType<double>(
-                        context: context,
-                        mobile: 15,
-                        tablet: 15,
-                        desktop: 18))),
+            SvgPicture.asset(
+              iconPath,
+              width: size,
+              height: size,
+              color: Colors.white70,
+            ),
+            CustomText(
+                text: label,
+                textColor: Colors.white70,
+                fontSize: getValueForScreenType<double>(
+                    context: context, mobile: 14, tablet: 15, desktop: 18)),
           ],
         ));
   }

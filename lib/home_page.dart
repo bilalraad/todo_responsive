@@ -1,27 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:line_awesome_flutter/line_awesome_flutter.dart';
-import 'package:todo_responsive/controllers/task_controller.dart';
-import 'package:todo_responsive/models/task.dart';
-import 'package:todo_responsive/ui/widgets/nav_bar.dart';
 
-import './calendar.dart';
-import 'settings/settings.dart';
-import 'Pomodoro_tab.dart';
-import 'tasks_tab.dart';
-
-class BottomNav {
-  final String name;
-  final IconData icon;
-
-  const BottomNav(this.name, this.icon);
-}
-
-List<BottomNav> items = [
-  const BottomNav('TasksListPage', LineAwesomeIcons.check_square),
-  const BottomNav('Calendar', LineAwesomeIcons.calendar_check),
-  const BottomNav('Pomodoro', LineAwesomeIcons.stopwatch),
-  const BottomNav('Settings', LineAwesomeIcons.horizontal_sliders),
-];
+import './controllers/task_controller.dart';
+import './models/task.dart';
+import './ui/widgets/nav_bar.dart';
+import './ui/pages/calendar.dart';
+import 'ui/pages/settings/settings_tab.dart';
+import 'ui/pages/Pomodoro/pomodoro_tab.dart';
+import './ui/pages/tasks_tab.dart';
 
 class TodoAppState extends ChangeNotifier {
   int _selectedIndex;
@@ -247,13 +232,13 @@ class _AppShellState extends State<AppShell> {
           ),
           navBarItems: [
             NavigationBarItem(
-                label: 'Tasks', icon: LineAwesomeIcons.check_square),
+                label: 'Tasks', iconPath: 'assets/icons/task_icon.svg'),
             NavigationBarItem(
-                label: 'Calendar', icon: LineAwesomeIcons.calendar_check),
+                label: 'Calendar', iconPath: 'assets/icons/calendar_icon.svg'),
             NavigationBarItem(
-                label: 'Pomodoro', icon: LineAwesomeIcons.stopwatch),
+                label: 'Pomodoro', iconPath: 'assets/icons/timer_icon.svg'),
             NavigationBarItem(
-                label: 'Settings', icon: LineAwesomeIcons.horizontal_sliders),
+                label: 'Settings', iconPath: 'assets/icons/settings_icon.svg'),
           ]),
     );
   }

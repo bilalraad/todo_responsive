@@ -35,7 +35,7 @@ class CategoryDropDown extends StatelessWidget {
               ]),
           child: DropdownButton<String>(
             value: currentCategory,
-            items: tc.taskLists
+            items: tc.taskCategories
                 .map<DropdownMenuItem<String>>((tl) => DropdownMenuItem(
                       value: tl,
                       child: CustomText(

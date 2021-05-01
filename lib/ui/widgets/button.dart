@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'custom_text.dart';
+import './custom_text.dart';
 
 class Custombutton extends StatelessWidget {
   final Function onPressed;
@@ -28,8 +28,9 @@ class Custombutton extends StatelessWidget {
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
             primary: color ?? Theme.of(context).accentColor,
+            elevation: 0,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(5),
             )),
         child: CustomText(
             text: lable,

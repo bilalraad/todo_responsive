@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import 'package:todo_responsive/ui/widgets/custom_text.dart';
@@ -58,13 +60,13 @@ class DateTimePickerWidget extends StatelessWidget {
         Container(
           width: 330,
           margin: EdgeInsets.symmetric(horizontal: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Wrap(
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Row(
                 children: [
-                  Image.asset(
-                    'assets/icons/date_and_time_icon.png',
+                  SvgPicture.asset(
+                    'assets/icons/date_and_time_icon.svg',
                     color: Theme.of(context).iconTheme.color,
                   ),
                   SizedBox(width: 10),
@@ -73,14 +75,15 @@ class DateTimePickerWidget extends StatelessWidget {
                       child: CustomText(
                         textColor: Theme.of(context).accentColor,
                         fontSize: 18,
-                        text: DateFormat.yMMMEd().format(currentDateTime),
+                        text: DateFormat.yMMMEd(Get.locale.languageCode)
+                            .format(currentDateTime),
                       )),
                 ],
               ),
               Row(
                 children: [
-                  Image.asset(
-                    'assets/icons/date_and_time_icon.png',
+                  SvgPicture.asset(
+                    'assets/icons/clock_icon.svg',
                     color: Theme.of(context).iconTheme.color,
                   ),
                   SizedBox(width: 10),
@@ -89,7 +92,8 @@ class DateTimePickerWidget extends StatelessWidget {
                       child: CustomText(
                         textColor: Theme.of(context).accentColor,
                         fontSize: 18,
-                        text: DateFormat.Hm().format(currentDateTime),
+                        text: DateFormat.Hm(Get.locale.languageCode)
+                            .format(currentDateTime),
                       )),
                 ],
               ),

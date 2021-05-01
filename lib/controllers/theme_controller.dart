@@ -8,7 +8,7 @@ import 'package:hive/hive.dart';
 
 final List<int> prefrencesColorsDark = [
   0xFF86C691,
-  0xFFF8B32A,
+  0xFFBB96FC,
   0xFF80D8FF,
   0xFFF1B5AC,
 ];
@@ -126,11 +126,11 @@ class SettingsController extends GetxController {
     setPrefColor(prefColor);
   }
 
-  static ThemeData themeData(bool isLightTheme) {
+  static ThemeData themeData(bool isLightTheme, Locale locale) {
     return ThemeData(
       visualDensity: VisualDensity.adaptivePlatformDensity,
       primarySwatch: Colors.grey,
-      primaryColor: isLightTheme ? Colors.white : Color(0xFF494A67),
+      primaryColor: isLightTheme ? Color(0xFFF5F5F5) : Color(0xFF494A67),
       brightness: isLightTheme ? Brightness.light : Brightness.dark,
       backgroundColor: isLightTheme ? Color(0xFFFFFFFF) : Color(0xFF424360),
       bottomSheetTheme:
@@ -146,6 +146,7 @@ class SettingsController extends GetxController {
       ),
       appBarTheme: AppBarTheme(
           color: isLightTheme ? Colors.grey[100] : Color(0xFF494A67)),
+      fontFamily: locale.languageCode == 'ar' ? 'Cairo' : 'OpenSans',
     );
   }
 }
