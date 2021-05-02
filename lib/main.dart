@@ -4,13 +4,13 @@ import 'package:get/get.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:hive/hive.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:todo_responsive/home_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-import 'controllers/pomodoro_controller.dart';
-import 'controllers/task_controller.dart';
-import 'controllers/theme_controller.dart';
-import 'localization/localizations.dart';
+import './home_page.dart';
+import './controllers/pomodoro_controller.dart';
+import './controllers/task_controller.dart';
+import './controllers/theme_controller.dart';
+import './localization/localizations.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

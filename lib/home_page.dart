@@ -4,9 +4,9 @@ import './controllers/task_controller.dart';
 import './models/task.dart';
 import './ui/widgets/nav_bar.dart';
 import './ui/pages/calendar.dart';
-import 'ui/pages/settings/settings_tab.dart';
-import 'ui/pages/Pomodoro/pomodoro_tab.dart';
 import './ui/pages/tasks_tab.dart';
+import './ui/pages/Pomodoro/Pomodoro_tab.dart';
+import './ui/pages/settings/settings_tab.dart';
 
 class TodoAppState extends ChangeNotifier {
   int _selectedIndex;
@@ -232,13 +232,13 @@ class _AppShellState extends State<AppShell> {
           ),
           navBarItems: [
             NavigationBarItem(
-                label: 'Tasks', iconPath: 'assets/icons/task_icon.svg'),
+                label: 'Tasks', iconPath: 'assets/icons/task_icon.png'),
             NavigationBarItem(
-                label: 'Calendar', iconPath: 'assets/icons/calendar_icon.svg'),
+                label: 'Calendar', iconPath: 'assets/icons/calendar_icon.png'),
             NavigationBarItem(
-                label: 'Pomodoro', iconPath: 'assets/icons/timer_icon.svg'),
+                label: 'Pomodoro', iconPath: 'assets/icons/timer_icon.png'),
             NavigationBarItem(
-                label: 'Settings', iconPath: 'assets/icons/settings_icon.svg'),
+                label: 'Settings', iconPath: 'assets/icons/settings_icon.png'),
           ]),
     );
   }
