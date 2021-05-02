@@ -26,6 +26,7 @@ class RoundedIconButton extends StatelessWidget {
   }
 }
 
+// ignore: must_be_immutable
 class CustomStepper extends StatefulWidget {
   CustomStepper({
     @required this.value,
