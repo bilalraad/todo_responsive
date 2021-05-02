@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import 'package:todo_responsive/ui/widgets/custom_text.dart';
+import 'custom_text.dart';
 
 class CustomNavBar extends StatelessWidget {
   final Widget selectedWidget;
@@ -151,7 +150,7 @@ class NavigationBarItem extends StatelessWidget {
             desktop: 180),
         child: Column(
           children: [
-            SvgPicture.asset(
+            Image.asset(
               iconPath,
               width: size,
               height: size,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'custom_stepper.dart';
-import 'settings_components.dart';
+import './custom_stepper.dart';
+import './settings_components.dart';
 import '../../widgets/custom_text.dart';
 import '../../../controllers/theme_controller.dart';
 import '../../../controllers/pomodoro_controller.dart';

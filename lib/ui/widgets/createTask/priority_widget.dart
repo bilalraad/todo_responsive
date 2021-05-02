@@ -42,11 +42,11 @@ class PriorityWidget extends StatelessWidget {
                     onPriprotySelected(TaskPriority.Low);
                 },
               ),
-              VerticalDivider(
-                thickness: 1,
-                width: 2,
-                color: Colors.black,
-              ),
+              // VerticalDivider(
+              //   thickness: 1,
+              //   width: 2,
+              //   color: Colors.black,
+              // ),
               Custombutton(
                 lable: 'Medium',
                 color: currentPriority != 'Medium'
@@ -57,11 +57,11 @@ class PriorityWidget extends StatelessWidget {
                     onPriprotySelected(TaskPriority.Medium);
                 },
               ),
-              VerticalDivider(
-                thickness: 1,
-                width: 2,
-                color: Colors.black,
-              ),
+              // VerticalDivider(
+              //   thickness: 1,
+              //   width: 2,
+              //   color: Colors.black,
+              // ),
               Custombutton(
                 lable: 'High',
                 color: currentPriority != 'High'

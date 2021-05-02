@@ -125,49 +125,55 @@ class TaskList extends StatelessWidget {
       //if t2<t1 swap t1 and t2
       return t1finished.compareTo(t2finished);
     });
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        titleBlock.isEmpty
-            ? SizedBox(height: 10)
-            : Center(
-                child: Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 10),
-                    child: CustomText(
-                      text: titleBlock,
-                      iprefText: true,
-                      fontSize: 22,
-                    )),
-              ),
-        Scrollbar(
-          controller: _scrollController,
-          isAlwaysShown: getValueForScreenType<bool>(
-            context: context,
-            mobile: false,
-            tablet: false,
-            desktop: true,
-          ),
-          child: Container(
-            margin: EdgeInsets.all(10),
-            height: getValueForScreenType<double>(
+    return Container(
+      width: getValueForScreenType<double>(
+        context: context,
+        mobile: double.infinity,
+        desktop: 440,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          titleBlock.isEmpty
+              ? SizedBox(height: 10)
+              : Container(
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  child: CustomText(
+                    text: titleBlock,
+                    iprefText: true,
+                    fontSize: 22,
+                  )),
+          Scrollbar(
+            controller: _scrollController,
+            isAlwaysShown: getValueForScreenType<bool>(
               context: context,
-              mobile: null,
-              tablet: null,
-              desktop: scrollHieght ?? 300,
+              mobile: false,
+              tablet: false,
+              desktop: true,
             ),
-            child: SingleChildScrollView(
-              physics: BouncingScrollPhysics(),
-              controller: _scrollController,
-              child: Column(
-                children: tasks
-                    .map((task) => TaskBlock(taskData: task, key: UniqueKey()))
-                    .toList(),
+            child: Container(
+              margin: EdgeInsets.all(10),
+              height: getValueForScreenType<double>(
+                context: context,
+                mobile: null,
+                tablet: null,
+                desktop: scrollHieght ?? 300,
+              ),
+              child: SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                controller: _scrollController,
+                child: Column(
+                  children: tasks
+                      .map(
+                          (task) => TaskBlock(taskData: task, key: UniqueKey()))
+                      .toList(),
+                ),
               ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

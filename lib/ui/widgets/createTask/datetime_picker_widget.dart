@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -61,13 +60,15 @@ class DateTimePickerWidget extends StatelessWidget {
           width: 330,
           margin: EdgeInsets.symmetric(horizontal: 10),
           child: Wrap(
-            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            runSpacing: 10,
             children: [
               Row(
                 children: [
-                  SvgPicture.asset(
-                    'assets/icons/date_and_time_icon.svg',
+                  Image.asset(
+                    'assets/icons/date_and_time_icon.png',
                     color: Theme.of(context).iconTheme.color,
+                    width: 25,
+                    height: 25,
                   ),
                   SizedBox(width: 10),
                   TextButton(
@@ -82,9 +83,11 @@ class DateTimePickerWidget extends StatelessWidget {
               ),
               Row(
                 children: [
-                  SvgPicture.asset(
-                    'assets/icons/clock_icon.svg',
+                  Image.asset(
+                    'assets/icons/clock_icon.png',
                     color: Theme.of(context).iconTheme.color,
+                    width: 25,
+                    height: 25,
                   ),
                   SizedBox(width: 10),
                   TextButton(
