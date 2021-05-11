@@ -1,8 +1,8 @@
 import 'dart:async';
-
-// import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+// import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
+import '../models/database.dart';
 
 enum TimerType { workTime, shortbreak, longBreak }
 
@@ -13,12 +13,12 @@ class PomodoroController extends GetxController {
   final _seconds = 0.obs;
   final _minutes = 0.obs;
   final _isTimerActive = false.obs;
+  final _db = DataBase('settings');
   Timer _timer;
   TimerType _timerType = TimerType.workTime;
   int _workTime;
   int _shortBreakTime;
   int _longBreakTime;
-  Box settings;
 
   double get percent => _percent.value;
   int get seconds => _seconds.value;
@@ -31,10 +31,11 @@ class PomodoroController extends GetxController {
   @override
   onInit() async {
     super.onInit();
-    settings = await Hive.openBox('settings');
-    _workTime = settings.get('workTime') ?? 25;
-    _shortBreakTime = settings.get('shortBreakTime') ?? 5;
-    _longBreakTime = settings.get('longBreakTime') ?? 15;
+    _workTime = await _db.getDataFromBox<int>('workTime', defaultValue: 25);
+    _shortBreakTime =
+        await _db.getDataFromBox<int>('shortbreak', defaultValue: 5);
+    _longBreakTime =
+        await _db.getDataFromBox<int>('longBreak', defaultValue: 15);
     _minutes.value = _workTime;
     update(['pomodoro']);
   }
@@ -85,14 +86,13 @@ class PomodoroController extends GetxController {
     );
   }
 
-  void stopTimer() {
+  void stopTimer({bool isByUser = false}) {
     _percent.value = 0.0;
     _seconds.value = 0;
     _minutes.value = getTimerDurationInMinute(_timerType);
     _isTimerActive.value = false;
     update(['pomodoro', 'timerBtns']);
     _currentTotalSeconds = null;
-    // FlutterRingtonePlayer.stop();
     if (_timer != null) {
       _timer.cancel();
       _timer = null;
@@ -100,7 +100,6 @@ class PomodoroController extends GetxController {
   }
 
   void pauseTimer() {
-    // FlutterRingtonePlayer.stop();
     if (_timer != null) {
       _timer.cancel();
       _timer = null;
@@ -110,21 +109,19 @@ class PomodoroController extends GetxController {
   void changeType(TimerType type) {
     _minutes.value = getTimerDurationInMinute(type);
     _timerType = type;
-    stopTimer();
+    stopTimer(isByUser: true);
     update(['pomodoro']);
   }
 
   void changeTimertime(int value, TimerType type) {
     if (type == TimerType.workTime) {
-      settings.put('workTime', value);
       _workTime = value;
       _minutes.value = value;
-    } else if (type == TimerType.longBreak) {
-      settings.put('longBreakTime', value);
-      _longBreakTime = value;
-    } else {
-      settings.put('shortBreakTime', value);
+    } else if (type == TimerType.shortbreak) {
       _shortBreakTime = value;
+    } else {
+      _longBreakTime = value;
     }
+    _db.putDataIntoBox<int>(describeEnum(type), value);
   }
 }

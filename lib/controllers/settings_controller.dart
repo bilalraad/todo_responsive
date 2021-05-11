@@ -2,9 +2,8 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
+import '../models/database.dart';
 
 final List<int> prefrencesColorsDark = [
   0xFF86C691,
@@ -19,6 +18,21 @@ final List<int> prefrencesColorsLight = [
   0xFF000000,
 ];
 
+//Change text color based on brightness of the covered background area
+Color textColorBasedOnBG(Color color) {
+  if (color == null) {
+    return Get.isDarkMode ? Colors.black : Colors.white;
+  }
+
+  final r = color.red.toInt(); //red
+  final g = color.green.toInt(); //green
+  final b = color.blue.toInt(); //blue
+  //Color brightness is determined by the following formula:
+  final brightness = (((r * 299) + (g * 587) + (b * 114)) / 1000).round();
+  final textColour = (brightness > 125) ? Colors.black : Colors.white;
+  return textColour;
+}
+
 class SettingsController extends GetxController {
   ///to use SettingsController.to instead Get.find<SettingsController>()
   static SettingsController get to => Get.find();
@@ -26,20 +40,22 @@ class SettingsController extends GetxController {
   @override
   onInit() async {
     super.onInit();
-    settings = await Hive.openBox('settings');
     //To indicate if it is the first time the user opens the app
-    _firstTime.value = await settings.get("firstTime") ?? true;
+    // _firstTime.value = await settings.get("firstTime", defaultValue: true);
+    _firstTime.value =
+        await db.getDataFromBox<bool>('firstTime', defaultValue: true);
     //The 3 functions is used when launching the app to get the settings data (theme, prefcolor, locale)
     //from the local database or set the default settings if it's the first time
     _getThemeModeFromDataBase();
     _getlocaleFromDataBase();
     _getPrefColorFromDataBase();
     if (firstTime) {
-      Timer(Duration(seconds: 60), () => settings.put("firstTime", false));
+      Timer(Duration(seconds: 60),
+          () => db.putDataIntoBox<bool>('firstTime', false));
     }
   }
 
-  Box settings;
+  final db = DataBase('settings');
   final _prefColor = 0xFF86C691.obs;
   final _themeMode = ThemeMode.system.obs;
   final _locale = Locale('en').obs;
@@ -54,12 +70,13 @@ class SettingsController extends GetxController {
     _themeMode.value = themeMode;
     _switchPrefColorsWhenThemeChange(themeMode);
     update();
-    await settings.put('theme', describeEnum(themeMode));
+    await db.putDataIntoBox<String>('theme', describeEnum(themeMode));
   }
 
-  _getThemeModeFromDataBase() async {
+  void _getThemeModeFromDataBase() async {
     ThemeMode themeMode;
-    String themeText = settings.get('theme') ?? 'system';
+    String themeText =
+        await db.getDataFromBox<String>('theme', defaultValue: 'system');
     try {
       if (themeText == 'system') {
         themeMode = Get.isDarkMode ? ThemeMode.dark : ThemeMode.light;
@@ -78,8 +95,7 @@ class SettingsController extends GetxController {
       Get.updateLocale(newLocale);
       _locale.value = newLocale;
       update();
-      // settings = await Hive.openBox('settings');
-      await settings.put('languageCode', newLocale.languageCode);
+      await db.putDataIntoBox('languageCode', newLocale.languageCode);
     }
   }
 
@@ -97,33 +113,33 @@ class SettingsController extends GetxController {
 
   void _getlocaleFromDataBase() async {
     Locale locale;
-    String languageCode =
-        settings.get('languageCode') ?? Get.locale.languageCode;
     try {
+      final languageCode = await db.getDataFromBox<String>('languageCode',
+          defaultValue: Get.locale.languageCode);
       locale = Locale(languageCode);
+      setLocale(locale);
     } catch (e) {
-      locale = Locale('en');
+      print(e.toString());
     }
-    setLocale(locale);
   }
 
   Future<void> setPrefColor(int newPrefColor) async {
     if (newPrefColor != _prefColor.value) {
       _prefColor.value = newPrefColor;
-      await settings.put('prefrencesColor', newPrefColor);
+      await db.putDataIntoBox('prefrencesColor', newPrefColor);
     }
   }
 
-  _getPrefColorFromDataBase() async {
+  void _getPrefColorFromDataBase() async {
     int prefColor;
-    int dbPrefColor = settings.get('prefrencesColor') ??
-        (Get.isDarkMode ? 0xFF86C691 : 0xFF3E844F);
     try {
+      int dbPrefColor = await db.getDataFromBox('prefrencesColor',
+          defaultValue: Get.isDarkMode ? 0xFF86C691 : 0xFF3E844F);
       prefColor = dbPrefColor;
+      setPrefColor(prefColor);
     } catch (e) {
-      prefColor = 0xFF86C691;
+      print(e);
     }
-    setPrefColor(prefColor);
   }
 
   static ThemeData themeData(bool isLightTheme, Locale locale) {

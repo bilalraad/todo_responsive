@@ -69,8 +69,7 @@ class _TaskBlockState extends State<TaskBlock>
         ),
         padding: const EdgeInsets.all(10.0),
         child: InkWell(
-          onTap: () => updateTaskModalBottomSheet(
-              context: context, oldTask: widget.taskData),
+          onTap: () => updateTask(context: context, oldTask: widget.taskData),
           child: Row(
             children: [
               Padding(
@@ -88,19 +87,24 @@ class _TaskBlockState extends State<TaskBlock>
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  CustomText(text: widget.taskData.title, fontSize: 20),
+                  CustomText(
+                    text: widget.taskData.title,
+                    textType: TextType.title,
+                  ),
                   CustomText(
                     text: widget.taskData.body.isEmpty
                         ? 'No description'
                         : widget.taskData.body.length > 20
                             ? widget.taskData.body.substring(0, 20)
                             : widget.taskData.body,
-                    fontSize: 12,
+                    textType: TextType.smallest,
                     textColor: Color(0xFF878787),
                   ),
                   CustomText(
-                      text: CustomDateFormatter.format(widget.taskData.dueDate),
-                      iprefText: true),
+                    text: CustomDateFormatter.format(widget.taskData.dueDate),
+                    iprefText: true,
+                    textType: TextType.paragraph,
+                  ),
                 ],
               ),
               Spacer(),

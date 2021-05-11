@@ -55,12 +55,13 @@ class DateTimePickerWidget extends StatelessWidget {
         CustomText(
           text: 'Date & Time',
           padding: EdgeInsets.only(bottom: 5),
+          textType: TextType.title,
         ),
         Container(
           width: 330,
           margin: EdgeInsets.symmetric(horizontal: 10),
-          child: Wrap(
-            runSpacing: 10,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Row(
                 children: [
@@ -70,12 +71,11 @@ class DateTimePickerWidget extends StatelessWidget {
                     width: 25,
                     height: 25,
                   ),
-                  SizedBox(width: 10),
                   TextButton(
                       onPressed: () => _selectDate(),
                       child: CustomText(
                         textColor: Theme.of(context).accentColor,
-                        fontSize: 18,
+                        textType: TextType.input,
                         text: DateFormat.yMMMEd(Get.locale.languageCode)
                             .format(currentDateTime),
                       )),
@@ -89,12 +89,11 @@ class DateTimePickerWidget extends StatelessWidget {
                     width: 25,
                     height: 25,
                   ),
-                  SizedBox(width: 10),
                   TextButton(
                       onPressed: () => _selectTime(),
                       child: CustomText(
                         textColor: Theme.of(context).accentColor,
-                        fontSize: 18,
+                        textType: TextType.input,
                         text: DateFormat.Hm(Get.locale.languageCode)
                             .format(currentDateTime),
                       )),

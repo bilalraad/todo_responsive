@@ -1,16 +1,10 @@
-# todo_responsive
+# Todo Responsive
 
-A new Flutter project.
+This project is just to test flutter for web and learn how to make a responsive UI
 
-## Getting Started
+You can try it at the link here:
+[Todo Responsive](https://pub.dev/packages/mapbox_gl)
 
-This project is a starting point for a Flutter application.
+The design was inspired from this [source](https://www.uplabs.com/posts/to-do-task-list-dark-app-version), I took it and made a web version of it and changed/added some stuff. Also I made a white version of it.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
-
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+You can see and duplicate the figma file [here](https://www.figma.com/file/0iRfDa9r9CyVAOepAqIhRq/Todo?node-id=0%3A1).

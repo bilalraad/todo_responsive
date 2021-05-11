@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../../controllers/settings_controller.dart';
 import './custom_text.dart';
 
 class Custombutton extends StatelessWidget {
   final Function onPressed;
   final String lable;
-  final double fontSize;
+  // final double fontSize;
   final Color color;
   final double width;
   final double hieght;
@@ -14,7 +15,7 @@ class Custombutton extends StatelessWidget {
     @required this.onPressed,
     @required this.lable,
     this.color,
-    this.fontSize,
+    // this.fontSize,
     this.width,
     this.hieght,
   });
@@ -22,7 +23,7 @@ class Custombutton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: width ?? 90,
+      width: width ?? 100,
       height: hieght ?? 40,
       child: ElevatedButton(
         onPressed: onPressed,
@@ -32,10 +33,7 @@ class Custombutton extends StatelessWidget {
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(5),
             )),
-        child: CustomText(
-            text: lable,
-            fontSize: fontSize ?? 14,
-            textColor: Theme.of(context).textTheme.button.color),
+        child: CustomText(text: lable, textColor: textColorBasedOnBG(color)),
       ),
     );
   }

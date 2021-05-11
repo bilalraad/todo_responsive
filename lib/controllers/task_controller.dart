@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
+import 'package:todo_responsive/models/database.dart';
 
 import '../models/task.dart';
 
@@ -8,8 +8,10 @@ class TaskController extends GetxController {
 
   final _tasks = <Task>[].obs;
   final _taskCategories = <String>["Default", "Personal", "Work"].obs;
-  Box _taskBox;
-  Box _taskCategoriesBox;
+  // Box _taskBox;
+  // Box _taskCategoriesBox;
+  final _tasksDB = DataBase('tasks');
+  final _taskCategoriesDb = DataBase('taskCategories');
 
   List<Task> get tasks => _tasks;
   List<String> get taskCategories => _taskCategories;
@@ -17,9 +19,6 @@ class TaskController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    //To make sure the is only one instance of the sqflite db for the entire app
-    _taskBox = await Hive.openBox('tasks');
-    _taskCategoriesBox = await Hive.openBox('taskLists');
     _tasks.assignAll(await _getAllTasks());
     update(["tasks", "calendar"]);
     await _getTaskLists();
@@ -30,7 +29,7 @@ class TaskController extends GetxController {
     try {
       _tasks.add(task);
       update(["tasks", "calendar"]);
-      _taskBox.put(task.id, task.toMap());
+      _tasksDB.putDataIntoBox(task.id, task.toMap());
     } catch (e) {
       print(e.toString());
     }
@@ -41,7 +40,7 @@ class TaskController extends GetxController {
     try {
       _tasks.removeWhere((t) => t.id == id);
       update(['tasks', 'calendar']);
-      _taskBox.delete(id);
+      _tasksDB.removeDataFromBox(id);
     } catch (e) {
       print(e.toString());
     }
@@ -53,7 +52,7 @@ class TaskController extends GetxController {
       var index = _tasks.indexWhere((t) => t.id == task.id);
       _tasks[index] = task;
       update(['tasks', 'calendar']);
-      _taskBox.put(task.id, task.toMap());
+      _tasksDB.putDataIntoBox(task.id, task.toMap());
     } catch (e) {
       print(e.toString());
     }
@@ -70,8 +69,7 @@ class TaskController extends GetxController {
   //this func. shouldn't be used outside the class
   Future<List<Task>> _getAllTasks() async {
     try {
-      final result = _taskBox.values.toList();
-      // return null;
+      final result = await _tasksDB.getAllDataFromBox();
       return _listofTasksFromMap(result.asMap()) ?? [];
     } catch (e) {
       print(e.toString());
@@ -82,7 +80,7 @@ class TaskController extends GetxController {
   //this func. shouldn't be used outside the class
   Future<void> _getTaskLists() async {
     try {
-      List result = _taskCategoriesBox.values.toList();
+      List result = await _taskCategoriesDb.getAllDataFromBox();
       if (result != null && result.isNotEmpty) {
         result.forEach((listM) {
           _taskCategories.add(listM);
@@ -99,7 +97,7 @@ class TaskController extends GetxController {
     try {
       _taskCategories.add(listName);
       update(['tasks']);
-      await _taskCategoriesBox.put(listName, listName);
+      await _taskCategoriesDb.putDataIntoBox(listName, listName);
     } catch (e) {
       print(e.toString());
     }
@@ -115,19 +113,10 @@ class TaskController extends GetxController {
         if (t.belongsTo == listName) deleteTask(t.id);
       });
       update(['tasks']);
-      _taskCategoriesBox.delete(listName);
+      _taskCategoriesDb.removeDataFromBox(listName);
     } catch (e) {
       print(e.toString());
     }
     return null;
-  }
-
-  void close() async {
-    try {
-      await _taskBox.close();
-      await _taskCategoriesBox.close();
-    } catch (e) {
-      print(e.toString());
-    }
   }
 }

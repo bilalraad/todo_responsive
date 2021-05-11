@@ -50,7 +50,7 @@ class _TasksTabState extends State<TasksTab> {
                     alignment: Alignment.center,
                     child: const CustomText(
                       text: 'There is no tasks here yet',
-                      fontSize: 18,
+                      textType: TextType.title,
                     ),
                   )
                 : child;
@@ -87,7 +87,7 @@ class _TasksTabState extends State<TasksTab> {
             body: _body(),
             floatingActionButton: FloatingActionButton(
               onPressed: () {
-                updateTaskModalBottomSheet(context: context);
+                updateTask(context: context);
               },
               child: const Icon(Icons.add, color: Colors.white, size: 24),
               backgroundColor: Theme.of(context).accentColor,
@@ -142,7 +142,7 @@ class TaskList extends StatelessWidget {
                   child: CustomText(
                     text: titleBlock,
                     iprefText: true,
-                    fontSize: 22,
+                    textType: TextType.title,
                   )),
           Scrollbar(
             controller: _scrollController,

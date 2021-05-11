@@ -27,10 +27,10 @@ class CustomNavBar extends StatelessWidget {
                     borderRadius: BorderRadius.circular(10))),
             child: Stack(
               alignment: getValueForScreenType<bool>(
-                      context: context,
-                      mobile: false,
-                      desktop: true,
-                      tablet: true)
+                context: context,
+                mobile: false,
+                desktop: true,
+              )
                   ? Get.locale.languageCode == 'ar'
                       ? Alignment.centerRight
                       : Alignment.centerLeft
@@ -38,28 +38,31 @@ class CustomNavBar extends StatelessWidget {
               children: [
                 if (selectedIndex == index)
                   getValueForScreenType<bool>(
-                          context: context,
-                          mobile: false,
-                          desktop: true,
-                          tablet: true)
+                    context: context,
+                    mobile: false,
+                    desktop: true,
+                  )
                       ? Container(
                           width: 5,
-                          height: 100,
+                          height: MediaQuery.of(context).size.width * 0.05,
                           color: Theme.of(context).accentColor,
                         )
                       : Container(
-                          width: MediaQuery.of(context).size.width * 0.2,
+                          width: MediaQuery.of(context).size.width * 0.15,
                           height: 5,
                           color: Theme.of(context).accentColor,
                         ),
-                ColorFiltered(
-                  colorFilter: ColorFilter.mode(
-                    selectedIndex == index
-                        ? Theme.of(context).accentColor
-                        : Color(0xFFC1C1C1),
-                    BlendMode.modulate,
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: ColorFiltered(
+                    colorFilter: ColorFilter.mode(
+                      selectedIndex == index
+                          ? Theme.of(context).accentColor
+                          : Color(0xFFC1C1C1),
+                      BlendMode.modulate,
+                    ),
+                    child: navBarItems[index],
                   ),
-                  child: navBarItems[index],
                 ),
               ],
             ),
@@ -74,12 +77,10 @@ class CustomNavBar extends StatelessWidget {
           children: [
             Expanded(
               child: Container(
-                constraints: BoxConstraints(maxWidth: 600),
                 child: selectedWidget,
               ),
             ),
             Container(
-              height: 70,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: _buildItems(),
@@ -87,35 +88,17 @@ class CustomNavBar extends StatelessWidget {
             ),
           ],
         ),
-        tablet: Row(
-          children: [
-            Container(
-              // width: 80,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: _buildItems(),
-              ),
-            ),
-            Expanded(
-              child: Container(
-                constraints: BoxConstraints(maxWidth: 600),
-                child: selectedWidget,
-              ),
-            ),
-          ],
-        ),
         desktop: Row(
           children: [
             Container(
-              width: 180,
+              width: MediaQuery.of(context).size.width * 0.07,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: _buildItems(),
               ),
             ),
             Expanded(
               child: Container(
-                constraints: BoxConstraints(maxWidth: 600),
                 child: selectedWidget,
               ),
             ),
@@ -136,18 +119,9 @@ class NavigationBarItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = getValueForScreenType<double>(
-      context: context,
-      mobile: MediaQuery.of(context).size.width * 0.07,
-      tablet: MediaQuery.of(context).size.width * 0.07,
-      desktop: 100,
-    );
+    final size = MediaQuery.of(context).size.width * 0.06;
     return Container(
-        width: getValueForScreenType<double>(
-            context: context,
-            mobile: MediaQuery.of(context).size.width * 0.2,
-            tablet: 80,
-            desktop: 180),
+        width: MediaQuery.of(context).size.width * 0.2,
         child: Column(
           children: [
             Image.asset(
@@ -157,10 +131,10 @@ class NavigationBarItem extends StatelessWidget {
               color: Colors.white70,
             ),
             CustomText(
-                text: label,
-                textColor: Colors.white70,
-                fontSize: getValueForScreenType<double>(
-                    context: context, mobile: 14, tablet: 15, desktop: 18)),
+              text: label,
+              textColor: Colors.white70,
+              textType: TextType.smallest,
+            ),
           ],
         ));
   }

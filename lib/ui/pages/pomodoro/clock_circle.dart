@@ -4,7 +4,7 @@ import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../../controllers/pomodoro_controller.dart';
-import '../../../models/clock_dail_painter.dart';
+import 'clock_dail_painter.dart';
 import '../../widgets/custom_text.dart';
 
 class ClockCircle extends StatelessWidget {
@@ -65,11 +65,7 @@ class ClockCircle extends StatelessWidget {
                           child: CustomText(
                             text:
                                 "${toTwoDigits(pc.minutes)} :${toTwoDigits(pc.seconds)}",
-                            fontSize: getValueForScreenType(
-                                context: context,
-                                mobile: 25,
-                                desktop: 50,
-                                tablet: 25),
+                            textType: TextType.main,
                             iprefText: true,
                             textDirection: TextDirection.ltr,
                           ),

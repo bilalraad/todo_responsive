@@ -9,7 +9,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import './home_page.dart';
 import './controllers/pomodoro_controller.dart';
 import './controllers/task_controller.dart';
-import './controllers/theme_controller.dart';
+import 'controllers/settings_controller.dart';
 import './localization/localizations.dart';
 
 Future<void> main() async {
@@ -22,7 +22,7 @@ Future<void> main() async {
   await Hive.initFlutter();
   Get.lazyPut<SettingsController>(() => SettingsController());
   Get.lazyPut<TaskController>(() => TaskController());
-  Get.put<PomodoroController>(PomodoroController());
+  Get.lazyPut<PomodoroController>(() => PomodoroController());
   runApp(TodoResponsive());
 }
 

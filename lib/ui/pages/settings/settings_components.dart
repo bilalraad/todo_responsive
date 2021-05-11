@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
-import '../../../controllers/theme_controller.dart';
+import '../../../controllers/settings_controller.dart';
 import '../../widgets/custom_text.dart';
 
 class SettingsCard extends StatelessWidget {
@@ -37,8 +37,7 @@ class SettingsCard extends StatelessWidget {
             CustomText(
               text: label,
               padding: EdgeInsets.all(10),
-              fontSize: getValueForScreenType<double>(
-                  context: context, mobile: null, tablet: null, desktop: 24),
+              textType: TextType.title,
             ),
             child,
           ],

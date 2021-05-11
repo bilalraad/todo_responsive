@@ -19,6 +19,7 @@ class PriorityWidget extends StatelessWidget {
         CustomText(
           text: 'Priority',
           padding: EdgeInsets.only(bottom: 5),
+          textType: TextType.title,
         ),
         Container(
           height: getValueForScreenType(
@@ -27,10 +28,9 @@ class PriorityWidget extends StatelessWidget {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               border: Border.all(width: 1)),
-          child: Wrap(
-            alignment: WrapAlignment.center,
-            // mainAxisSize: MainAxisSize.min,
-            // mainAxisAlignment: MainAxisAlignment.center,
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Custombutton(
                 lable: 'Low',
@@ -42,11 +42,6 @@ class PriorityWidget extends StatelessWidget {
                     onPriprotySelected(TaskPriority.Low);
                 },
               ),
-              // VerticalDivider(
-              //   thickness: 1,
-              //   width: 2,
-              //   color: Colors.black,
-              // ),
               Custombutton(
                 lable: 'Medium',
                 color: currentPriority != 'Medium'
@@ -57,11 +52,6 @@ class PriorityWidget extends StatelessWidget {
                     onPriprotySelected(TaskPriority.Medium);
                 },
               ),
-              // VerticalDivider(
-              //   thickness: 1,
-              //   width: 2,
-              //   color: Colors.black,
-              // ),
               Custombutton(
                 lable: 'High',
                 color: currentPriority != 'High'

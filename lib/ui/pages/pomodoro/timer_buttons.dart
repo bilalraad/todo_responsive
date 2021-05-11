@@ -28,11 +28,9 @@ class _TimerButtonsState extends State<TimerButtons> {
               child: Custombutton(
                 onPressed: () {
                   if (isActive)
-                    pomodoroController.stopTimer();
+                    pomodoroController.stopTimer(isByUser: true);
                   else
                     pomodoroController.startTimer();
-
-                  // setState(() => isActive = !isActive);
                 },
                 lable: isActive ? 'Stop' : 'Start',
                 color: isActive ? Colors.red : null,

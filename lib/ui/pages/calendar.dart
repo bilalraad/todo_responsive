@@ -65,7 +65,7 @@ class _CalendartTapState extends State<CalendartTap> {
               ),
             ),
             floatingActionButton: FloatingActionButton(
-              onPressed: () => updateTaskModalBottomSheet(context: context),
+              onPressed: () => updateTask(context: context),
               backgroundColor: Theme.of(context).accentColor,
               child: Icon(Icons.add, color: Colors.white),
             ),
@@ -163,7 +163,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
   ///To indicate that there is some events on that day
   Widget _buildEventsMarkerNumber(int tasksNo) {
     return Center(
-      child: CustomText(text: tasksNo.toString(), fontSize: 10.0),
+      child: CustomText(text: tasksNo.toString(), textType: TextType.smallest),
     );
   }
 }

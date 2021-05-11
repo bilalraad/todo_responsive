@@ -12,19 +12,18 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   cupertino_icons: ^0.1.3
+  flutter_sound: ^8.1.1
   get: ^4.1.4
   hive: ^2.0.4
   hive_flutter: ^1.0.0
+  intl: ^0.17.0
+  modal_bottom_sheet: ^2.0.0
   path_provider: ^2.0.1
   percent_indicator: ^3.0.1
+  responsive_builder: ^0.4.1
   table_calendar: ^3.0.0
   uuid: ^3.0.4
-  # flutter_ringtone_player: ^3.0.0
-  responsive_builder: ^0.4.1
-  intl: ^0.17.0
-
 # dependency_overrides:
-
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -33,7 +32,6 @@ flutter:
   uses-material-design: true
   assets:
     - assets/icons/
-  #   - images/a_dot_ham.jpeg
   fonts:
     - family: OpenSans
       fonts:

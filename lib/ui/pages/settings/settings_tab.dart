@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import './custom_stepper.dart';
 import './settings_components.dart';
 import '../../widgets/custom_text.dart';
-import '../../../controllers/theme_controller.dart';
+import '../../../controllers/settings_controller.dart';
 import '../../../controllers/pomodoro_controller.dart';
 
 class SettingsTap extends StatelessWidget {
@@ -50,7 +50,10 @@ class PrefrencesColumn extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: const CustomText(
-                text: 'Preferences', iprefText: true, fontSize: 24),
+              text: 'Preferences',
+              iprefText: true,
+              textType: TextType.main,
+            ),
           ),
           SettingsCard(
             label: 'Color',
@@ -123,8 +126,11 @@ class TimerColumn extends StatelessWidget {
           const SizedBox(height: 10),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child:
-                const CustomText(text: 'Timer', iprefText: true, fontSize: 24),
+            child: const CustomText(
+              text: 'Timer',
+              iprefText: true,
+              textType: TextType.main,
+            ),
           ),
           SettingsCard(
               child: CustomStepper(

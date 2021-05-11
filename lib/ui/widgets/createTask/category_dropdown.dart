@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:todo_responsive/controllers/settings_controller.dart';
 import 'package:todo_responsive/controllers/task_controller.dart';
 
 import '../custom_text.dart';
@@ -19,6 +20,7 @@ class CategoryDropDown extends StatelessWidget {
         CustomText(
           text: 'Category',
           padding: EdgeInsets.only(bottom: 5),
+          textType: TextType.title,
         ),
         Container(
           width: 300,
@@ -54,7 +56,10 @@ class CategoryDropDown extends StatelessWidget {
                 borderRadius: BorderRadius.circular(5),
                 color: Theme.of(context).accentColor,
               ),
-              child: Icon(Icons.keyboard_arrow_down_rounded),
+              child: Icon(
+                Icons.keyboard_arrow_down_rounded,
+                color: textColorBasedOnBG(Theme.of(context).accentColor),
+              ),
             ),
           ),
         ),
