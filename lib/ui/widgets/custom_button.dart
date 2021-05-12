@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../../controllers/settings_controller.dart';
-import './custom_text.dart';
+import 'custom_text.dart';
 
 class Custombutton extends StatelessWidget {
   final Function onPressed;
   final String lable;
-  // final double fontSize;
   final Color color;
   final double width;
   final double hieght;
@@ -15,7 +14,6 @@ class Custombutton extends StatelessWidget {
     @required this.onPressed,
     @required this.lable,
     this.color,
-    // this.fontSize,
     this.width,
     this.hieght,
   });

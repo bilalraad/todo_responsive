@@ -8,7 +8,6 @@ class CustomDateFormatter {
     if (dateTime == null) return '';
 
     DateTime localDateTime = dateTime.toLocal();
-
     String roughTimeString =
         DateFormat.Hm(Get.locale.languageCode).format(dateTime);
 
@@ -21,7 +20,7 @@ class CustomDateFormatter {
     if (isSameDay(localDateTime, tomorrow)) {
       return 'Tomorrow, hour'.trParams({"hour": "$roughTimeString"});
     }
-
+    //will return something like 5/2/2021 10:30AM
     return '${DateFormat.yMd(Get.locale.languageCode).add_jm().format(dateTime)}';
   }
 }

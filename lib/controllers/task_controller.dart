@@ -8,8 +8,7 @@ class TaskController extends GetxController {
 
   final _tasks = <Task>[].obs;
   final _taskCategories = <String>["Default", "Personal", "Work"].obs;
-  // Box _taskBox;
-  // Box _taskCategoriesBox;
+
   final _tasksDB = DataBase('tasks');
   final _taskCategoriesDb = DataBase('taskCategories');
 
@@ -21,7 +20,7 @@ class TaskController extends GetxController {
     super.onInit();
     _tasks.assignAll(await _getAllTasks());
     update(["tasks", "calendar"]);
-    await _getTaskLists();
+    await _getTaskCategories();
   }
 
   ///To creat new task and save it on the local DB
@@ -66,7 +65,6 @@ class TaskController extends GetxController {
     return tasks;
   }
 
-  //this func. shouldn't be used outside the class
   Future<List<Task>> _getAllTasks() async {
     try {
       final result = await _tasksDB.getAllDataFromBox();
@@ -77,8 +75,7 @@ class TaskController extends GetxController {
     return null;
   }
 
-  //this func. shouldn't be used outside the class
-  Future<void> _getTaskLists() async {
+  Future<void> _getTaskCategories() async {
     try {
       List result = await _taskCategoriesDb.getAllDataFromBox();
       if (result != null && result.isNotEmpty) {
@@ -106,6 +103,7 @@ class TaskController extends GetxController {
 
   ///To remove a list and The tasks that belongs to it
   ///from the App and the local DB
+  // for future use
   Future<void> removeList(String listName) async {
     try {
       _taskCategories.remove(listName);

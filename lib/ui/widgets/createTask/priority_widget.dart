@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:todo_responsive/models/task.dart';
 
-import '../button.dart';
+import '../custom_button.dart';
 import '../custom_text.dart';
 
 class PriorityWidget extends StatelessWidget {

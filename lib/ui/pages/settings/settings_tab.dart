@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 
 import './custom_stepper.dart';
-import './settings_components.dart';
+import './color_circle.dart';
+import './settings_card.dart';
 import '../../widgets/custom_text.dart';
 import '../../../controllers/settings_controller.dart';
 import '../../../controllers/pomodoro_controller.dart';
 
 class SettingsTap extends StatelessWidget {
-  // const SettingsTap();
-
   final List<Widget> columns = [
     PrefrencesColumn(),
     TimerColumn(),
@@ -40,7 +39,6 @@ class PrefrencesColumn extends StatelessWidget {
     final theme = Theme.of(context);
     Color selectedColor = theme.accentColor;
     bool isDark = theme.brightness == Brightness.dark;
-    // sc.themeMode == ThemeMode.dark ? true : false;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -135,8 +133,8 @@ class TimerColumn extends StatelessWidget {
           SettingsCard(
               child: CustomStepper(
                 value: pc.getTimerDurationInMinute(TimerType.workTime),
-                onValueChanged: (value) {
-                  pc.changeTimertime(value, TimerType.workTime);
+                onValueChanged: (isIncrement) {
+                  pc.changeTimertime(isIncrement, TimerType.workTime);
                 },
                 upperLimit: 100,
                 iconSize: 30,
@@ -145,8 +143,8 @@ class TimerColumn extends StatelessWidget {
           SettingsCard(
               child: CustomStepper(
                 value: pc.getTimerDurationInMinute(TimerType.shortbreak),
-                onValueChanged: (value) {
-                  pc.changeTimertime(value, TimerType.shortbreak);
+                onValueChanged: (isIncrement) {
+                  pc.changeTimertime(isIncrement, TimerType.shortbreak);
                 },
                 upperLimit: 100,
                 iconSize: 30,
@@ -155,8 +153,8 @@ class TimerColumn extends StatelessWidget {
           SettingsCard(
               child: CustomStepper(
                 value: pc.getTimerDurationInMinute(TimerType.longBreak),
-                onValueChanged: (value) {
-                  pc.changeTimertime(value, TimerType.longBreak);
+                onValueChanged: (isIncrement) {
+                  pc.changeTimertime(isIncrement, TimerType.longBreak);
                 },
                 upperLimit: 100,
                 iconSize: 30,

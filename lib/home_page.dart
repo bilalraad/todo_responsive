@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import './controllers/task_controller.dart';
 import './models/task.dart';
 import './ui/widgets/nav_bar.dart';
-import './ui/pages/calendar.dart';
+import './ui/pages/calendar/calendar_tab.dart';
 import './ui/pages/tasks_tab.dart';
 import './ui/pages/pomodoro/pomodoro_tab.dart';
 import './ui/pages/settings/settings_tab.dart';

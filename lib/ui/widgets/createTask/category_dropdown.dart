@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:todo_responsive/controllers/settings_controller.dart';
-import 'package:todo_responsive/controllers/task_controller.dart';
 
 import '../custom_text.dart';
+import '../../../controllers/settings_controller.dart';
+import '../../../controllers/task_controller.dart';
 
 class CategoryDropDown extends StatelessWidget {
   final String currentCategory;

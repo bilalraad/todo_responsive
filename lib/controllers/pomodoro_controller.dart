@@ -4,18 +4,29 @@ import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import '../models/database.dart';
 
+///Used as and indicator of the current timer type
+///and it can be changed bt the user through Pomodoro page
 enum TimerType { workTime, shortbreak, longBreak }
 
 class PomodoroController extends GetxController {
   static PomodoroController get to => Get.find();
 
+// [_percent] , [_seconds],and [_minutes] are are used to
+// dispaly the remaining time of the pomodoro timer and the percentage
+// and they CAN NOT be changed by the user
   final _percent = 0.0.obs;
   final _seconds = 0.obs;
   final _minutes = 0.obs;
+
   final _isTimerActive = false.obs;
   final _db = DataBase('settings');
   Timer _timer;
+
   TimerType _timerType = TimerType.workTime;
+
+  //[_workTime], [_shortBreakTime], and [_longBreakTime] are static values that
+  // can only be changed (by user) from the settings
+  // the default values are 25, 5, 15 respectively
   int _workTime;
   int _shortBreakTime;
   int _longBreakTime;
@@ -106,6 +117,9 @@ class PomodoroController extends GetxController {
     }
   }
 
+  ///This will change the mintues shown in the ui to
+  ///the respctful time to each type
+  ///This func. should only be used in the pomodoro page
   void changeType(TimerType type) {
     _minutes.value = getTimerDurationInMinute(type);
     _timerType = type;
@@ -113,14 +127,19 @@ class PomodoroController extends GetxController {
     update(['pomodoro']);
   }
 
-  void changeTimertime(int value, TimerType type) {
+  ///The timer is increased or decreased by 1, depending on the respectful type.
+  void changeTimertime(bool isIncrement, TimerType type) {
+    int value;
     if (type == TimerType.workTime) {
-      _workTime = value;
-      _minutes.value = value;
+      _workTime = isIncrement ? _workTime + 1 : _workTime - 1;
+      value = _workTime;
+      _minutes.value = _workTime;
     } else if (type == TimerType.shortbreak) {
-      _shortBreakTime = value;
+      _shortBreakTime = isIncrement ? _shortBreakTime + 1 : _shortBreakTime - 1;
+      value = _shortBreakTime;
     } else {
-      _longBreakTime = value;
+      _longBreakTime = isIncrement ? _longBreakTime + 1 : _longBreakTime - 1;
+      value = _longBreakTime;
     }
     _db.putDataIntoBox<int>(describeEnum(type), value);
   }

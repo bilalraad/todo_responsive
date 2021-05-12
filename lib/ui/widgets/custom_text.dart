@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
-///This custom text is used to unify the text style of the app
 class CustomText extends StatelessWidget {
   final String text;
   final EdgeInsetsGeometry padding;
@@ -14,11 +13,11 @@ class CustomText extends StatelessWidget {
   final FontWeight fontWeight;
   final TextType textType;
 
+  /// This custom text is used to unify the text style of the app
   const CustomText({
     @required this.text,
     this.padding,
     this.textColor,
-    // this.fontSize,
     this.textAlign,
     this.textDirection,
     this.fontWeight,

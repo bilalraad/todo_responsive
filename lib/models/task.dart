@@ -32,7 +32,6 @@ class Task {
     @required this.body,
     @required this.priority,
     @required this.dueDate,
-    @required this.createdAt,
     @required this.belongsTo,
     @required this.isFinished,
   });
@@ -40,13 +39,10 @@ class Task {
   final String id;
   final String title;
 
-  ///The description of the task ant it is optional
+  ///The description of the task (optional)
   final String body;
   final TaskPriority priority;
   final DateTime dueDate;
-
-  ///For futuer use currentlt just set it to DateTime.now()
-  final DateTime createdAt;
 
   ///to identify which list the task belongs to
   final String belongsTo;
@@ -62,7 +58,6 @@ class Task {
         dueDate: json["dueDate"].toString().isNotEmpty
             ? DateTime.parse(json["dueDate"])
             : null,
-        createdAt: DateTime.parse(json["createdAt"]),
         belongsTo: json["belongsTo"],
         isFinished: boolParse(json['isFinished']));
   }
@@ -73,7 +68,6 @@ class Task {
         "body": body,
         "priority": priority.index,
         "dueDate": dueDate?.toIso8601String() ?? '',
-        "createdAt": DateTime.now().toIso8601String(),
         "belongsTo": belongsTo,
         "isFinished": isFinished.toString()
       };
@@ -94,7 +88,6 @@ class Task {
       body: body ?? this.body,
       priority: priority ?? this.priority,
       dueDate: dueDate ?? this.dueDate,
-      createdAt: createdAt ?? this.createdAt,
       belongsTo: belongsTo ?? this.belongsTo,
       isFinished: isFinished ?? this.isFinished,
     );
@@ -102,7 +95,7 @@ class Task {
 
   @override
   String toString() {
-    return 'Task(id: $id, title: $title, body: $body, priority: $priority, dueDate: $dueDate, createdAt: $createdAt, belongsTo: $belongsTo, isFinished: $isFinished)';
+    return 'Task(id: $id, title: $title, body: $body, priority: $priority, dueDate: $dueDate, belongsTo: $belongsTo, isFinished: $isFinished)';
   }
 
   @override
@@ -115,7 +108,6 @@ class Task {
         o.body == body &&
         o.priority == priority &&
         o.dueDate == dueDate &&
-        o.createdAt == createdAt &&
         o.belongsTo == belongsTo &&
         o.isFinished == isFinished;
   }
@@ -127,7 +119,6 @@ class Task {
         body.hashCode ^
         priority.hashCode ^
         dueDate.hashCode ^
-        createdAt.hashCode ^
         belongsTo.hashCode ^
         isFinished.hashCode;
   }

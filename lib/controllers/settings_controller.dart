@@ -6,16 +6,16 @@ import 'package:get/get.dart';
 import '../models/database.dart';
 
 final List<int> prefrencesColorsDark = [
-  0xFF86C691,
-  0xFFBB96FC,
-  0xFF80D8FF,
-  0xFFF1B5AC,
+  0xFF86C691, //green
+  0xFFBB96FC, //purple
+  0xFF80D8FF, //light blue
+  0xFFF1B5AC, //pink
 ];
 final List<int> prefrencesColorsLight = [
-  0xFF3E844F,
-  0xFFA3007A,
-  0xFF005D85,
-  0xFF000000,
+  0xFF3E844F, //green
+  0xFFA3007A, //eggplant
+  0xFF005D85, //blue
+  0xFF000000, //black
 ];
 
 //Change text color based on brightness of the covered background area

@@ -13,7 +13,7 @@ import './header_buttons.dart';
 import './priority_widget.dart';
 import './category_dropdown.dart';
 
-///This func. is used to create or update a task form the ui side
+///This func. is used to create or update a task on the ui side
 void updateTask({@required BuildContext context, Task oldTask}) {
   final _formKey = GlobalKey<FormState>();
   Task newTask;
@@ -27,7 +27,6 @@ void updateTask({@required BuildContext context, Task oldTask}) {
       body: '',
       priority: TaskPriority.Low,
       dueDate: DateTime.now().add(Duration(hours: 1)),
-      createdAt: DateTime.now(),
       belongsTo: 'Default',
       isFinished: false,
     );
@@ -87,6 +86,7 @@ StatefulBuilder creatTaskFeilds(
             Form(
               key: _formKey,
               child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   BottomCard(
                     child: TextFormField(

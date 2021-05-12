@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import './ar.dart';
 import './en.dart';
 
-///To help Getx packege to tanslate the app
+///To help Getx packege tanslate the app
 //if you want to add new word or sentens add it to both english and arabic maps
 class MyTranslations extends Translations {
   @override

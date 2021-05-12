@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:todo_responsive/controllers/task_controller.dart';
 import 'package:todo_responsive/models/task.dart';
-import 'package:todo_responsive/ui/widgets/button.dart';
+import 'package:todo_responsive/ui/widgets/custom_button.dart';
 
 class HeaderButtons extends StatelessWidget {
   const HeaderButtons({

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../controllers/pomodoro_controller.dart';
-import '../../widgets/button.dart';
+import '../../widgets/custom_button.dart';
 
 class TimerButtons extends StatefulWidget {
   const TimerButtons();
@@ -12,15 +12,14 @@ class TimerButtons extends StatefulWidget {
 }
 
 class _TimerButtonsState extends State<TimerButtons> {
-  // bool isActive = false;
   bool isPaused = false;
   final pomodoroController = PomodoroController.to;
   @override
   Widget build(BuildContext context) {
     return GetBuilder<PomodoroController>(
       id: 'timerBtns',
-      builder: (_) {
-        final isActive = _.isTimerActive;
+      builder: (pc) {
+        final isActive = pc.isTimerActive;
         return Column(
           children: [
             Padding(

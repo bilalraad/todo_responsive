@@ -46,11 +46,9 @@ class _TodoResponsiveState extends State<TodoResponsive> {
           title: 'Todo App',
           routerDelegate: _routerDelegate,
           routeInformationParser: _routeInformationParser,
-          // showPerformanceOverlay: true,
           debugShowCheckedModeBanner: false,
           theme: SettingsController.themeData(true, _.locale)
               .copyWith(accentColor: Color(_.prefColor)),
-
           darkTheme: SettingsController.themeData(false, _.locale)
               .copyWith(accentColor: Color(_.prefColor)),
           locale: _.locale,

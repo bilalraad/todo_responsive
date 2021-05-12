@@ -1,6 +1,7 @@
 import 'package:hive/hive.dart';
 
 class DataBase {
+  /// to create an instance of the loclal DataBase with a specific box
   DataBase(String boxName) {
     _boxName = boxName;
   }

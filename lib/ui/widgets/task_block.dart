@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 
+import '../../controllers/settings_controller.dart';
 import '../../controllers/task_controller.dart';
 import '../../models/date_formatter.dart';
 import '../../models/task.dart';
@@ -25,6 +26,8 @@ class _TaskBlockState extends State<TaskBlock>
   AnimationController _controller;
   Animation<double> _opacityAnimation;
 
+  Color priorityBGColor;
+
   @override
   void initState() {
     super.initState();
@@ -39,6 +42,12 @@ class _TaskBlockState extends State<TaskBlock>
       parent: _controller,
       curve: Curves.ease,
     ));
+
+    priorityBGColor = widget.taskData.priority == TaskPriority.High
+        ? Color(0xFFD8334F)
+        : widget.taskData.priority == TaskPriority.Medium
+            ? Color(0xFFE3A224)
+            : Color(0xFF66C749);
   }
 
   @override
@@ -112,17 +121,14 @@ class _TaskBlockState extends State<TaskBlock>
                 height: 30,
                 width: 90,
                 alignment: Alignment.centerRight,
+                margin: EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
-                    color: widget.taskData.priority == TaskPriority.High
-                        ? Color(0xFFD8334F)
-                        : widget.taskData.priority == TaskPriority.Medium
-                            ? Color(0xFFE3A224)
-                            : Color(0xFF66C749)),
+                    color: priorityBGColor),
                 child: Center(
                   child: CustomText(
                     text: describeEnum(widget.taskData.priority),
-                    textColor: Colors.black,
+                    textColor: textColorBasedOnBG(priorityBGColor),
                   ),
                 ),
               ),
