@@ -9,7 +9,7 @@ It does not work with Safari for some unknown reason.
 ### Try it
 
 You can try it at the link here:
-[Todo Responsive](https://pub.dev/packages/mapbox_gl)
+[Todo Responsive](https://todo-responsive.web.app/)
 
 ## Resources
 
