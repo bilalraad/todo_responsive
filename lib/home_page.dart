@@ -232,13 +232,25 @@ class _AppShellState extends State<AppShell> {
           ),
           navBarItems: [
             NavigationBarItem(
-                label: 'Tasks', iconPath: 'assets/icons/task_icon.png'),
+              label: 'Tasks',
+              iconPath: 'assets/icons/task_icon.png',
+              selected: appState.selectedIndex == 0,
+            ),
             NavigationBarItem(
-                label: 'Calendar', iconPath: 'assets/icons/calendar_icon.png'),
+              label: 'Calendar',
+              iconPath: 'assets/icons/calendar_icon.png',
+              selected: appState.selectedIndex == 1,
+            ),
             NavigationBarItem(
-                label: 'Pomodoro', iconPath: 'assets/icons/timer_icon.png'),
+              label: 'Pomodoro',
+              iconPath: 'assets/icons/timer_icon.png',
+              selected: appState.selectedIndex == 2,
+            ),
             NavigationBarItem(
-                label: 'Settings', iconPath: 'assets/icons/settings_icon.png'),
+              label: 'Settings',
+              iconPath: 'assets/icons/settings_icon.png',
+              selected: appState.selectedIndex == 3,
+            ),
           ]),
     );
   }

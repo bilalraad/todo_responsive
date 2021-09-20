@@ -16,7 +16,7 @@ class RoundedIconButton extends StatelessWidget {
       onPressed: onPress,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(iconSize * 0.2)),
-      fillColor: Theme.of(context).accentColor,
+      fillColor: Theme.of(context).colorScheme.secondary,
       child: Icon(
         icon,
         color: Theme.of(context).canvasColor,

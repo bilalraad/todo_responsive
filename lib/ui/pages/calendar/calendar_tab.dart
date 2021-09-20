@@ -66,7 +66,7 @@ class _CalendartTapState extends State<CalendartTap> {
             ),
             floatingActionButton: FloatingActionButton(
               onPressed: () => updateTask(context: context),
-              backgroundColor: Theme.of(context).accentColor,
+              backgroundColor: Theme.of(context).colorScheme.secondary,
               child: Icon(Icons.add, color: Colors.white),
             ),
           );

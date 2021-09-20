@@ -54,11 +54,12 @@ class CategoryDropDown extends StatelessWidget {
               height: 35,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
-                color: Theme.of(context).accentColor,
+                color: Theme.of(context).colorScheme.secondary,
               ),
               child: Icon(
                 Icons.keyboard_arrow_down_rounded,
-                color: textColorBasedOnBG(Theme.of(context).accentColor),
+                color:
+                    textColorBasedOnBG(Theme.of(context).colorScheme.secondary),
               ),
             ),
           ),

@@ -84,7 +84,7 @@ class _TasksTabState extends State<TasksTab> {
                 updateTask(context: context);
               },
               child: const Icon(Icons.add, color: Colors.white, size: 24),
-              backgroundColor: Theme.of(context).accentColor,
+              backgroundColor: Theme.of(context).colorScheme.secondary,
             ),
           );
         });

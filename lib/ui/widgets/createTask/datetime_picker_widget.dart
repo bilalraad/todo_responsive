@@ -74,7 +74,7 @@ class DateTimePickerWidget extends StatelessWidget {
                   TextButton(
                       onPressed: () => _selectDate(),
                       child: CustomText(
-                        textColor: Theme.of(context).accentColor,
+                        textColor: Theme.of(context).colorScheme.secondary,
                         textType: TextType.input,
                         text: DateFormat.yMMMEd(Get.locale.languageCode)
                             .format(currentDateTime),
@@ -92,7 +92,7 @@ class DateTimePickerWidget extends StatelessWidget {
                   TextButton(
                       onPressed: () => _selectTime(),
                       child: CustomText(
-                        textColor: Theme.of(context).accentColor,
+                        textColor: Theme.of(context).colorScheme.secondary,
                         textType: TextType.input,
                         text: DateFormat.Hm(Get.locale.languageCode)
                             .format(currentDateTime),

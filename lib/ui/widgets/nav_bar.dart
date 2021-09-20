@@ -45,24 +45,16 @@ class CustomNavBar extends StatelessWidget {
                       ? Container(
                           width: 5,
                           height: MediaQuery.of(context).size.width * 0.05,
-                          color: Theme.of(context).accentColor,
+                          color: Theme.of(context).colorScheme.secondary,
                         )
                       : Container(
                           width: MediaQuery.of(context).size.width * 0.15,
                           height: 5,
-                          color: Theme.of(context).accentColor,
+                          color: Theme.of(context).colorScheme.secondary,
                         ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: ColorFiltered(
-                    colorFilter: ColorFilter.mode(
-                      selectedIndex == index
-                          ? Theme.of(context).accentColor
-                          : Color(0xFFC1C1C1),
-                      BlendMode.modulate,
-                    ),
-                    child: navBarItems[index],
-                  ),
+                  child: navBarItems[index],
                 ),
               ],
             ),
@@ -112,9 +104,11 @@ class CustomNavBar extends StatelessWidget {
 class NavigationBarItem extends StatelessWidget {
   final String label;
   final String iconPath;
+  final bool selected;
   const NavigationBarItem({
     @required this.label,
     @required this.iconPath,
+    @required this.selected,
   });
 
   @override
@@ -128,11 +122,15 @@ class NavigationBarItem extends StatelessWidget {
               iconPath,
               width: size,
               height: size,
-              color: Colors.white70,
+              color: selected
+                  ? Theme.of(context).colorScheme.secondary
+                  : Colors.grey,
             ),
             CustomText(
               text: label,
-              textColor: Colors.white70,
+              textColor: selected
+                  ? Theme.of(context).colorScheme.secondary
+                  : Colors.grey,
               textType: TextType.smallest,
             ),
           ],

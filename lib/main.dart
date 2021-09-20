@@ -47,12 +47,14 @@ class _TodoResponsiveState extends State<TodoResponsive> {
           routerDelegate: _routerDelegate,
           routeInformationParser: _routeInformationParser,
           debugShowCheckedModeBanner: false,
-          theme: SettingsController.themeData(true, _.locale)
-              .copyWith(accentColor: Color(_.prefColor)),
-          darkTheme: SettingsController.themeData(false, _.locale)
-              .copyWith(accentColor: Color(_.prefColor)),
+          theme: SettingsController.themeData(true, _.locale).copyWith(
+              colorScheme: ColorScheme.fromSwatch()
+                  .copyWith(secondary: Color(_.prefColor))),
+          darkTheme: SettingsController.themeData(false, _.locale).copyWith(
+              colorScheme: ColorScheme.fromSwatch()
+                  .copyWith(secondary: Color(_.prefColor))),
           locale: _.locale,
-          themeMode: ThemeMode.system,
+          themeMode: SettingsController.to.themeMode,
           translations: MyTranslations(),
           supportedLocales: [
             const Locale('en'),

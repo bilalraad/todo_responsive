@@ -165,7 +165,7 @@ class CircleCheckbox extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           border: Border.all(
-            color: Theme.of(context).accentColor,
+            color: Theme.of(context).colorScheme.secondary,
             width: 2,
           ),
           borderRadius: const BorderRadius.all(Radius.circular(20))),
@@ -177,7 +177,7 @@ class CircleCheckbox extends StatelessWidget {
         ),
         child: Checkbox(
           activeColor: Colors.transparent,
-          checkColor: Theme.of(context).accentColor,
+          checkColor: Theme.of(context).colorScheme.secondary,
           value: value,
           tristate: tristate,
           onChanged: onChanged,

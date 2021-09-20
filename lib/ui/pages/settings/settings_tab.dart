@@ -37,8 +37,10 @@ class PrefrencesColumn extends StatelessWidget {
   Widget build(BuildContext context) {
     final sc = SettingsController.to;
     final theme = Theme.of(context);
-    Color selectedColor = theme.accentColor;
-    bool isDark = theme.brightness == Brightness.dark;
+    Color selectedColor = theme.colorScheme.secondary;
+    bool isDark = sc.themeMode == ThemeMode.dark;
+    print(isDark);
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -67,10 +69,11 @@ class PrefrencesColumn extends StatelessWidget {
           SettingsCard(
             label: 'Dark Theme',
             child: Switch.adaptive(
-                value: isDark,
-                activeColor: selectedColor,
-                onChanged: (_) =>
-                    sc.setThemeMode(isDark ? ThemeMode.light : ThemeMode.dark)),
+              value: isDark,
+              activeColor: selectedColor,
+              onChanged: (value) =>
+                  sc.setThemeMode(isDark ? ThemeMode.light : ThemeMode.dark),
+            ),
           ),
           SettingsCard(
             label: 'Language',

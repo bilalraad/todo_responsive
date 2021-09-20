@@ -66,28 +66,26 @@ class SettingsController extends GetxController {
   int get prefColor => _prefColor.value;
 
   Future<void> setThemeMode(ThemeMode themeMode) async {
-    Get.changeThemeMode(themeMode);
     _themeMode.value = themeMode;
+    Get.changeThemeMode(themeMode);
     _switchPrefColorsWhenThemeChange(themeMode);
-    update();
     await db.putDataIntoBox<String>('theme', describeEnum(themeMode));
   }
 
   void _getThemeModeFromDataBase() async {
-    ThemeMode themeMode;
     String themeText =
         await db.getDataFromBox<String>('theme', defaultValue: 'system');
     try {
       if (themeText == 'system') {
-        themeMode = Get.isDarkMode ? ThemeMode.dark : ThemeMode.light;
+        _themeMode.value = Get.isDarkMode ? ThemeMode.dark : ThemeMode.light;
       } else {
-        themeMode =
+        _themeMode.value =
             ThemeMode.values.firstWhere((e) => describeEnum(e) == themeText);
       }
     } catch (e) {
-      themeMode = ThemeMode.system;
+      _themeMode.value = ThemeMode.system;
     }
-    setThemeMode(themeMode);
+    setThemeMode(_themeMode.value);
   }
 
   Future<void> setLocale(Locale newLocale) async {

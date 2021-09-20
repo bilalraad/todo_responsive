@@ -20,7 +20,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final selectedColor = Theme.of(context).accentColor;
+    final selectedColor = Theme.of(context).colorScheme.secondary;
     final textcolor = Theme.of(context).textTheme.button.color;
     final borderRadius = BorderRadius.circular(5);
 

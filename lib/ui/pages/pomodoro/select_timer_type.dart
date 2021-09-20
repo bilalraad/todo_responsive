@@ -23,7 +23,7 @@ class _SelectTimerTypeWidgetState extends State<SelectTimerTypeWidget> {
           color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(10),
           border: currrentType == type
-              ? Border.all(color: Theme.of(context).accentColor)
+              ? Border.all(color: Theme.of(context).colorScheme.secondary)
               : null,
         ),
         child: TextButton(

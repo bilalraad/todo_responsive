@@ -36,7 +36,7 @@ class PriorityWidget extends StatelessWidget {
                 lable: 'Low',
                 color: currentPriority != 'Low'
                     ? Theme.of(context).backgroundColor
-                    : null,
+                    : Color(0xFF66C749),
                 onPressed: () {
                   if (currentPriority != 'low')
                     onPriprotySelected(TaskPriority.Low);
@@ -46,7 +46,7 @@ class PriorityWidget extends StatelessWidget {
                 lable: 'Medium',
                 color: currentPriority != 'Medium'
                     ? Theme.of(context).backgroundColor
-                    : null,
+                    : Color(0xFFE3A224),
                 onPressed: () {
                   if (currentPriority != 'medium')
                     onPriprotySelected(TaskPriority.Medium);
@@ -56,7 +56,7 @@ class PriorityWidget extends StatelessWidget {
                 lable: 'High',
                 color: currentPriority != 'High'
                     ? Theme.of(context).backgroundColor
-                    : null,
+                    : Color(0xFFD8334F),
                 onPressed: () {
                   if (currentPriority != 'high')
                     onPriprotySelected(TaskPriority.High);

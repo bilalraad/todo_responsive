@@ -33,7 +33,8 @@ class CustomText extends StatelessWidget {
       child: Text(
         text.tr,
         style: TextStyle(
-          color: iprefText ? Theme.of(context).accentColor : textColor,
+          color:
+              iprefText ? Theme.of(context).colorScheme.secondary : textColor,
           fontSize: responsiveTextsizes(context, textType),
           fontWeight: fontWeight,
         ),
