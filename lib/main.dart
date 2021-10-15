@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
@@ -5,12 +7,14 @@ import 'package:get/get_navigation/src/root/get_material_app.dart';
 import 'package:hive/hive.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:sentry_flutter/sentry_flutter.dart';
 
 import './home_page.dart';
 import './controllers/pomodoro_controller.dart';
 import './controllers/task_controller.dart';
 import 'controllers/settings_controller.dart';
 import './localization/localizations.dart';
+import 'models/database.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,10 +24,21 @@ Future<void> main() async {
     ScreenBreakpoints(desktop: 900, tablet: 550, watch: 100),
   );
   await Hive.initFlutter();
-  Get.lazyPut<SettingsController>(() => SettingsController());
+  Get.put<SettingsController>(SettingsController(LocalDataBase('settings')));
   Get.lazyPut<TaskController>(() => TaskController());
   Get.lazyPut<PomodoroController>(() => PomodoroController());
-  runApp(TodoResponsive());
+  await SentryFlutter.init(
+    (options) {
+      options.dsn =
+          'https://2091334bfc98400895e278473d466aa0@o1019039.ingest.sentry.io/5984951';
+    },
+    appRunner: () => runApp(TodoResponsive()),
+  );
+  // runZonedGuarded(() async {
+  //   runApp(TodoResponsive());
+  // }, (obj, trace){
+
+  // });
 }
 
 class TodoResponsive extends StatefulWidget {
@@ -39,7 +54,6 @@ class _TodoResponsiveState extends State<TodoResponsive> {
   @override
   Widget build(BuildContext context) {
     return GetX<SettingsController>(
-      init: SettingsController(),
       initState: (_) {},
       builder: (_) {
         return GetMaterialApp.router(

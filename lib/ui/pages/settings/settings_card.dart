@@ -17,7 +17,7 @@ class SettingsCard extends StatelessWidget {
           tablet: double.infinity,
           desktop: 440),
       height: getValueForScreenType<double>(
-          context: context, mobile: 65, tablet: 65, desktop: 100),
+          context: context, mobile: 70, tablet: 65, desktop: 100),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Theme.of(context).backgroundColor,

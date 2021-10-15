@@ -36,6 +36,9 @@ Color textColorBasedOnBG(Color color) {
 class SettingsController extends GetxController {
   ///to use SettingsController.to instead Get.find<SettingsController>()
   static SettingsController get to => Get.find();
+  final LocalDataBase _db;
+
+  SettingsController(this._db);
 
   @override
   onInit() async {
@@ -43,7 +46,7 @@ class SettingsController extends GetxController {
     //To indicate if it is the first time the user opens the app
     // _firstTime.value = await settings.get("firstTime", defaultValue: true);
     _firstTime.value =
-        await db.getDataFromBox<bool>('firstTime', defaultValue: true);
+        await _db.getDataByKey<bool>('firstTime', defaultValue: true);
     //The 3 functions is used when launching the app to get the settings data (theme, prefcolor, locale)
     //from the local database or set the default settings if it's the first time
     _getThemeModeFromDataBase();
@@ -51,11 +54,10 @@ class SettingsController extends GetxController {
     _getPrefColorFromDataBase();
     if (firstTime) {
       Timer(Duration(seconds: 60),
-          () => db.putDataIntoBox<bool>('firstTime', false));
+          () => _db.putDataIntoBox<bool>('firstTime', false));
     }
   }
 
-  final db = DataBase('settings');
   final _prefColor = 0xFF86C691.obs;
   final _themeMode = ThemeMode.system.obs;
   final _locale = Locale('en').obs;
@@ -69,12 +71,12 @@ class SettingsController extends GetxController {
     _themeMode.value = themeMode;
     Get.changeThemeMode(themeMode);
     _switchPrefColorsWhenThemeChange(themeMode);
-    await db.putDataIntoBox<String>('theme', describeEnum(themeMode));
+    await _db.putDataIntoBox<String>('theme', describeEnum(themeMode));
   }
 
   void _getThemeModeFromDataBase() async {
     String themeText =
-        await db.getDataFromBox<String>('theme', defaultValue: 'system');
+        await _db.getDataByKey<String>('theme', defaultValue: 'system');
     try {
       if (themeText == 'system') {
         _themeMode.value = Get.isDarkMode ? ThemeMode.dark : ThemeMode.light;
@@ -93,7 +95,7 @@ class SettingsController extends GetxController {
       Get.updateLocale(newLocale);
       _locale.value = newLocale;
       update();
-      await db.putDataIntoBox('languageCode', newLocale.languageCode);
+      await _db.putDataIntoBox('languageCode', newLocale.languageCode);
     }
   }
 
@@ -112,7 +114,7 @@ class SettingsController extends GetxController {
   void _getlocaleFromDataBase() async {
     Locale locale;
     try {
-      final languageCode = await db.getDataFromBox<String>('languageCode',
+      final languageCode = await _db.getDataByKey<String>('languageCode',
           defaultValue: Get.locale.languageCode);
       locale = Locale(languageCode);
       setLocale(locale);
@@ -124,14 +126,14 @@ class SettingsController extends GetxController {
   Future<void> setPrefColor(int newPrefColor) async {
     if (newPrefColor != _prefColor.value) {
       _prefColor.value = newPrefColor;
-      await db.putDataIntoBox('prefrencesColor', newPrefColor);
+      await _db.putDataIntoBox('prefrencesColor', newPrefColor);
     }
   }
 
   void _getPrefColorFromDataBase() async {
     int prefColor;
     try {
-      int dbPrefColor = await db.getDataFromBox('prefrencesColor',
+      int dbPrefColor = await _db.getDataByKey('prefrencesColor',
           defaultValue: Get.isDarkMode ? 0xFF86C691 : 0xFF3E844F);
       prefColor = dbPrefColor;
       setPrefColor(prefColor);

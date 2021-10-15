@@ -1,15 +1,14 @@
 import 'package:hive/hive.dart';
 
-class DataBase {
+class LocalDataBase {
   /// to create an instance of the loclal DataBase with a specific box
-  DataBase(String boxName) {
-    _boxName = boxName;
-  }
+  LocalDataBase(this._boxName);
+
   String _boxName;
 
   /// If [defaultValue] is specified, it is returned in case the key does not
   /// exist.
-  Future<T> getDataFromBox<T>(String key, {T defaultValue}) async {
+  Future<T> getDataByKey<T>(String key, {T defaultValue}) async {
     try {
       final _box = await Hive.openBox(_boxName);
       final value = _box.get(key, defaultValue: defaultValue);
@@ -45,7 +44,7 @@ class DataBase {
     }
   }
 
-  Future<List<T>> getAllDataFromBox<T>() async {
+  Future<List<T>> getAllBoxData<T>() async {
     try {
       final _box = await Hive.openBox(_boxName);
       final value = _box.values.toList();

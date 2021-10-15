@@ -9,8 +9,8 @@ class TaskController extends GetxController {
   final _tasks = <Task>[].obs;
   final _taskCategories = <String>["Default", "Personal", "Work"].obs;
 
-  final _tasksDB = DataBase('tasks');
-  final _taskCategoriesDb = DataBase('taskCategories');
+  final _tasksDB = LocalDataBase('tasks');
+  final _taskCategoriesDb = LocalDataBase('taskCategories');
 
   List<Task> get tasks => _tasks;
   List<String> get taskCategories => _taskCategories;
@@ -67,7 +67,7 @@ class TaskController extends GetxController {
 
   Future<List<Task>> _getAllTasks() async {
     try {
-      final result = await _tasksDB.getAllDataFromBox();
+      final result = await _tasksDB.getAllBoxData();
       return _listofTasksFromMap(result.asMap()) ?? [];
     } catch (e) {
       print(e.toString());
@@ -77,7 +77,7 @@ class TaskController extends GetxController {
 
   Future<void> _getTaskCategories() async {
     try {
-      List result = await _taskCategoriesDb.getAllDataFromBox();
+      List result = await _taskCategoriesDb.getAllBoxData();
       if (result != null && result.isNotEmpty) {
         result.forEach((listM) {
           _taskCategories.add(listM);
@@ -103,7 +103,7 @@ class TaskController extends GetxController {
 
   ///To remove a list and The tasks that belongs to it
   ///from the App and the local DB
-  // for future use
+  // for future use (not implemented)
   Future<void> removeList(String listName) async {
     try {
       _taskCategories.remove(listName);

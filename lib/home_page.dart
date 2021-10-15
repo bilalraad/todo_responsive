@@ -226,7 +226,7 @@ class _AppShellState extends State<AppShell> {
             appState.selectedIndex = newIndex;
           },
           selectedIndex: appState.selectedIndex,
-          selectedWidget: Router(
+          selectedWidgetBody: Router(
             routerDelegate: _routerDelegate,
             backButtonDispatcher: _backButtonDispatcher,
           ),

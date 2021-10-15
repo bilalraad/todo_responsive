@@ -4,7 +4,7 @@ import 'package:responsive_builder/responsive_builder.dart';
 
 import '../../controllers/settings_controller.dart';
 import '../../controllers/task_controller.dart';
-import '../../models/date_formatter.dart';
+import '../../utils/date_formatter.dart';
 import '../../models/task.dart';
 import './createTask/creat_task.dart';
 import './custom_text.dart';

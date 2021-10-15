@@ -19,7 +19,7 @@ class PomodoroController extends GetxController {
   final _minutes = 0.obs;
 
   final _isTimerActive = false.obs;
-  final _db = DataBase('settings');
+  final _db = LocalDataBase('settings');
   Timer _timer;
 
   TimerType _timerType = TimerType.workTime;
@@ -42,11 +42,10 @@ class PomodoroController extends GetxController {
   @override
   onInit() async {
     super.onInit();
-    _workTime = await _db.getDataFromBox<int>('workTime', defaultValue: 25);
+    _workTime = await _db.getDataByKey<int>('workTime', defaultValue: 25);
     _shortBreakTime =
-        await _db.getDataFromBox<int>('shortbreak', defaultValue: 5);
-    _longBreakTime =
-        await _db.getDataFromBox<int>('longBreak', defaultValue: 15);
+        await _db.getDataByKey<int>('shortbreak', defaultValue: 5);
+    _longBreakTime = await _db.getDataByKey<int>('longBreak', defaultValue: 15);
     _minutes.value = _workTime;
     update(['pomodoro']);
   }
