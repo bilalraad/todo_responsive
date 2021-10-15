@@ -11,6 +11,8 @@ enum TimerType { workTime, shortbreak, longBreak }
 class PomodoroController extends GetxController {
   static PomodoroController get to => Get.find();
 
+  final LocalDataBase _db;
+  PomodoroController(this._db);
 // [_percent] , [_seconds],and [_minutes] are are used to
 // dispaly the remaining time of the pomodoro timer and the percentage
 // and they CAN NOT be changed by the user
@@ -19,7 +21,6 @@ class PomodoroController extends GetxController {
   final _minutes = 0.obs;
 
   final _isTimerActive = false.obs;
-  final _db = LocalDataBase('settings');
   Timer _timer;
 
   TimerType _timerType = TimerType.workTime;
@@ -51,20 +52,23 @@ class PomodoroController extends GetxController {
   }
 
   int getTimerDurationInMinute(TimerType type) {
-    if (type == TimerType.workTime)
+    if (type == TimerType.workTime) {
       return _workTime ?? 25;
-    else if (type == TimerType.shortbreak) return _shortBreakTime ?? 5;
+    } else if (type == TimerType.shortbreak) {
+      return _shortBreakTime ?? 5;
+    }
     return _longBreakTime ?? 15;
   }
 
   double getDurationInSeconds(TimerType type) {
     int _timeInMinute = 0;
-    if (type == TimerType.workTime)
+    if (type == TimerType.workTime) {
       _timeInMinute = _workTime;
-    else if (type == TimerType.longBreak)
+    } else if (type == TimerType.longBreak) {
       _timeInMinute = _longBreakTime;
-    else
+    } else {
       _timeInMinute = _shortBreakTime;
+    }
 
     return Duration(minutes: _timeInMinute).inSeconds.toDouble();
   }
@@ -73,8 +77,7 @@ class PomodoroController extends GetxController {
     _isTimerActive.value = true;
     update(['timerBtns']);
 
-    if (_currentTotalSeconds == null)
-      _currentTotalSeconds = getDurationInSeconds(_timerType);
+    _currentTotalSeconds ??= getDurationInSeconds(_timerType);
     _minutes.value = getTimerDurationInMinute(_timerType);
     _minutes.value--;
 

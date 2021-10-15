@@ -1,16 +1,20 @@
+// ignore_for_file: constant_identifier_names
+
 import 'package:flutter/material.dart';
 
 enum TaskPriority { High, Medium, Low }
 
 ///To convert a string bool (i.e. "true"/"false") to normal boll value
 bool boolParse(String bStr) {
-  if (bStr == "true")
+  if (bStr == "true") {
     return true;
-  else if (bStr == " false") return false;
+  } else if (bStr == " false") {
+    return false;
+  }
   return false;
 }
 
-extension dateTime on DateTime {
+extension DateTimeExtention on DateTime {
   DateTime copywith({int year, int month, int day, int hour, int minute}) {
     return DateTime(
       year ?? this.year,
@@ -18,9 +22,9 @@ extension dateTime on DateTime {
       day ?? this.day,
       hour ?? this.hour,
       minute ?? this.minute,
-      this.second,
-      this.millisecond,
-      this.microsecond,
+      second,
+      millisecond,
+      microsecond,
     );
   }
 }

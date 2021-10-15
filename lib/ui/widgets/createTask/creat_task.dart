@@ -18,18 +18,19 @@ void updateTask({@required BuildContext context, Task oldTask}) {
   final _formKey = GlobalKey<FormState>();
   Task newTask;
 
-  if (oldTask != null)
+  if (oldTask != null) {
     newTask = oldTask;
-  else
+  } else {
     newTask = Task(
-      id: Uuid().v4(),
+      id: const Uuid().v4(),
       title: '',
       body: '',
       priority: TaskPriority.Low,
-      dueDate: DateTime.now().add(Duration(hours: 1)),
+      dueDate: DateTime.now().add(const Duration(hours: 1)),
       belongsTo: 'Default',
       isFinished: false,
     );
+  }
 
   getValueForScreenType(
     context: context,
@@ -63,11 +64,11 @@ StatefulBuilder creatTaskFeilds(
   ///I used [StatefulBuilder]because in normal setstate
   ///the modal sheet doesn't update its state. So insted use [modalSetState((){})]
   return StatefulBuilder(builder: (context, modalSetState) {
-    return Container(
+    return SizedBox(
         height: _height * 0.8,
         width: 400,
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Column(children: <Widget>[
             Container(
               width: 60,

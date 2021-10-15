@@ -29,7 +29,7 @@ class HeaderButtons extends StatelessWidget {
             if (oldTask != null)
               Custombutton(
                   lable: "Delete",
-                  color: Color(0xFFD8334F),
+                  color: const Color(0xFFD8334F),
                   onPressed: () async {
                     await tc.deleteTask(oldTask.id);
                     Navigator.pop(context);
@@ -63,12 +63,12 @@ class HeaderButtons extends StatelessWidget {
 class BottomCard extends StatelessWidget {
   final Widget child;
 
-  const BottomCard({this.child});
+  const BottomCard({this.child, Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: SizedBox(
         child: Padding(
           padding: const EdgeInsets.all(8.0),

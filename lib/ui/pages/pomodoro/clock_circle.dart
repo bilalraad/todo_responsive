@@ -8,7 +8,7 @@ import 'clock_dail_painter.dart';
 import '../../widgets/custom_text.dart';
 
 class ClockCircle extends StatelessWidget {
-  const ClockCircle();
+  const ClockCircle({Key key}) : super(key: key);
   String toTwoDigits(int numb) {
     if (numb <= 9) return '0$numb';
     return numb.toString();
@@ -43,18 +43,18 @@ class ClockCircle extends StatelessWidget {
                   radius: getValueForScreenType(
                       context: context, mobile: 300, desktop: 440, tablet: 350),
                   restartAnimation: true,
-                  widgetIndicator: Icon(Icons.arrow_drop_down_rounded,
+                  widgetIndicator: const Icon(Icons.arrow_drop_down_rounded,
                       size: 100, color: Colors.red),
                   center: Container(
-                    margin: EdgeInsets.all(40),
+                    margin: const EdgeInsets.all(40),
                     child: Stack(
                       alignment: Alignment.center,
                       children: [
                         RepaintBoundary(
-                          child: Container(
+                          child: SizedBox(
                             width: double.infinity,
                             child: CustomPaint(
-                              size: Size.square(200),
+                              size: const Size.square(200),
                               painter: ClockDialPainter(),
                             ),
                           ),

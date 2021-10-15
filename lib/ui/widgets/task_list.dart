@@ -10,7 +10,8 @@ class TaskList extends StatelessWidget {
     @required this.tasks,
     @required this.titleBlock,
     this.scrollHieght,
-  });
+    Key key,
+  }) : super(key: key);
 
   final List<Task> tasks;
   final String titleBlock;
@@ -33,7 +34,7 @@ class TaskList extends StatelessWidget {
       //if t2<t1 swap t1 and t2
       return t1finished.compareTo(t2finished);
     });
-    return Container(
+    return SizedBox(
       width: getValueForScreenType<double>(
         context: context,
         mobile: double.infinity,
@@ -43,7 +44,7 @@ class TaskList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           titleBlock.isEmpty
-              ? SizedBox(height: 10)
+              ? const SizedBox(height: 10)
               : Container(
                   margin:
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
@@ -61,7 +62,7 @@ class TaskList extends StatelessWidget {
               desktop: true,
             ),
             child: Container(
-              margin: EdgeInsets.all(10),
+              margin: const EdgeInsets.all(10),
               height: getValueForScreenType<double>(
                 context: context,
                 mobile: null,
@@ -70,7 +71,7 @@ class TaskList extends StatelessWidget {
                     scrollHieght ?? MediaQuery.of(context).size.height / 2.7,
               ),
               child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 controller: _scrollController,
                 child: Column(
                   children: tasks

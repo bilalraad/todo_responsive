@@ -21,35 +21,32 @@ Future<void> main() async {
   //
   //initialize setting & Task controller lazily
   ResponsiveSizingConfig.instance.setCustomBreakpoints(
-    ScreenBreakpoints(desktop: 900, tablet: 550, watch: 100),
+    const ScreenBreakpoints(desktop: 900, tablet: 550, watch: 100),
   );
   await Hive.initFlutter();
   Get.put<SettingsController>(SettingsController(LocalDataBase('settings')));
-  Get.lazyPut<TaskController>(() => TaskController());
-  Get.lazyPut<PomodoroController>(() => PomodoroController());
+  Get.lazyPut<TaskController>(() => TaskController(LocalDataBase('tasks')));
+  Get.lazyPut<PomodoroController>(
+      () => PomodoroController(LocalDataBase('settings')));
   await SentryFlutter.init(
     (options) {
       options.dsn =
           'https://2091334bfc98400895e278473d466aa0@o1019039.ingest.sentry.io/5984951';
     },
-    appRunner: () => runApp(TodoResponsive()),
+    appRunner: () => runApp(const TodoResponsive()),
   );
-  // runZonedGuarded(() async {
-  //   runApp(TodoResponsive());
-  // }, (obj, trace){
-
-  // });
 }
 
 class TodoResponsive extends StatefulWidget {
+  const TodoResponsive({Key key}) : super(key: key);
+
   @override
   _TodoResponsiveState createState() => _TodoResponsiveState();
 }
 
 class _TodoResponsiveState extends State<TodoResponsive> {
-  TodoRouterDelegate _routerDelegate = TodoRouterDelegate();
-  TodoRouteInformationParser _routeInformationParser =
-      TodoRouteInformationParser();
+  final _routerDelegate = TodoRouterDelegate();
+  final _routeInformationParser = TodoRouteInformationParser();
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +55,9 @@ class _TodoResponsiveState extends State<TodoResponsive> {
       builder: (_) {
         return GetMaterialApp.router(
           title: 'Todo App',
+          navigatorObservers: [
+            SentryNavigatorObserver(),
+          ],
           routerDelegate: _routerDelegate,
           routeInformationParser: _routeInformationParser,
           debugShowCheckedModeBanner: false,
@@ -70,11 +70,11 @@ class _TodoResponsiveState extends State<TodoResponsive> {
           locale: _.locale,
           themeMode: SettingsController.to.themeMode,
           translations: MyTranslations(),
-          supportedLocales: [
-            const Locale('en'),
-            const Locale('ar'),
+          supportedLocales: const [
+            Locale('en'),
+            Locale('ar'),
           ],
-          localizationsDelegates: [
+          localizationsDelegates: const [
             // ... app-specific localization delegate[s] here
             GlobalMaterialLocalizations.delegate,
             GlobalWidgetsLocalizations.delegate,

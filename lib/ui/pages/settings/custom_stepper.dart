@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
 class RoundedIconButton extends StatelessWidget {
-  RoundedIconButton(
-      {@required this.icon, @required this.onPress, @required this.iconSize});
+  const RoundedIconButton({
+    @required this.icon,
+    @required this.onPress,
+    @required this.iconSize,
+    Key key,
+  }) : super(key: key);
 
   final IconData icon;
   final Function onPress;
@@ -35,7 +39,8 @@ class CustomStepper extends StatefulWidget {
     this.lowerLimit = 1,
     this.stepValue = 1,
     this.iconSize = 8,
-  });
+    Key key,
+  }) : super(key: key);
 
   final int lowerLimit;
   final int upperLimit;
@@ -66,7 +71,7 @@ class _CustomStepperState extends State<CustomStepper> {
             }
           },
         ),
-        Container(
+        SizedBox(
           width: widget.iconSize,
           child: Text(
             '${widget.value}',

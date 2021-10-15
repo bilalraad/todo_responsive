@@ -13,7 +13,7 @@ class ClockDialPainter extends CustomPainter {
   final Paint tickPaint;
 
   ClockDialPainter()
-      : tickPaint = new Paint(),
+      : tickPaint = Paint(),
         circlePaint = Paint()
           ..style = PaintingStyle.stroke
           ..strokeWidth = 10.0 {
@@ -22,20 +22,20 @@ class ClockDialPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    var tickMarkLength;
+    double tickMarkLength;
     final angle = 2 * pi / 60;
     final radius = (size.width / 2);
     final radius2 = (size.height / 2);
     circlePaint.shader = ui.Gradient.linear(
       Offset(0.0, radius2),
       Offset(0.0, -radius2),
-      [Color(0xFF80D8FF), Color(0xFF86C691)],
+      [const Color(0xFF80D8FF), const Color(0xFF86C691)],
     );
     circlePaint.strokeWidth = 15;
     canvas.save();
     // drawing
     canvas.translate(radius, radius2);
-    canvas.drawCircle(Offset(0, 0), radius - 20, circlePaint);
+    canvas.drawCircle(const Offset(0, 0), radius - 20, circlePaint);
 
     for (var i = 0; i < 60; i++) {
       //make the length and stroke of the tick marker longer and thicker depending

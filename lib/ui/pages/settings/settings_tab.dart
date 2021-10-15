@@ -9,15 +9,17 @@ import '../../../controllers/pomodoro_controller.dart';
 
 class SettingsTap extends StatelessWidget {
   final List<Widget> columns = [
-    PrefrencesColumn(),
+    const PrefrencesColumn(),
     TimerColumn(),
   ];
+
+  SettingsTap({Key key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           child: Center(
             child: Wrap(
               spacing: 40,
@@ -31,7 +33,7 @@ class SettingsTap extends StatelessWidget {
 }
 
 class PrefrencesColumn extends StatelessWidget {
-  const PrefrencesColumn();
+  const PrefrencesColumn({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,9 +49,9 @@ class PrefrencesColumn extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: const CustomText(
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.0),
+            child: CustomText(
               text: 'Preferences',
               iprefText: true,
               textType: TextType.main,
@@ -100,9 +102,9 @@ class PrefrencesColumn extends StatelessWidget {
                   }).toList(),
                   onChanged: (value) {
                     if (value == 'Arabic') {
-                      sc.setLocale(Locale('ar'));
+                      sc.setLocale(const Locale('ar'));
                     } else {
-                      sc.setLocale(Locale('en'));
+                      sc.setLocale(const Locale('en'));
                     }
                   },
                 ),
@@ -118,6 +120,8 @@ class PrefrencesColumn extends StatelessWidget {
 class TimerColumn extends StatelessWidget {
   final pc = PomodoroController.to;
 
+  TimerColumn({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -125,9 +129,9 @@ class TimerColumn extends StatelessWidget {
       child: Column(
         children: [
           const SizedBox(height: 10),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: const CustomText(
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 8.0),
+            child: CustomText(
               text: 'Timer',
               iprefText: true,
               textType: TextType.main,

@@ -9,7 +9,7 @@ import '../widgets/createTask/creat_task.dart';
 import '../../controllers/task_controller.dart';
 
 class TasksTab extends StatefulWidget {
-  const TasksTab();
+  const TasksTab({Key key}) : super(key: key);
   @override
   _TasksTabState createState() => _TasksTabState();
 }
@@ -26,16 +26,18 @@ class _TasksTabState extends State<TasksTab> {
         builder: (tc) {
           List<Task> today = [], tomorrow = [], later = [], sTasks = tc.tasks;
 
-          if (sTasks.isNotEmpty)
-            sTasks.forEach((ti) {
-              if (isSameDay(ti.dueDate, DateTime.now()))
+          if (sTasks.isNotEmpty) {
+            for (var ti in sTasks) {
+              if (isSameDay(ti.dueDate, DateTime.now())) {
                 today.add(ti);
-              else if (isSameDay(
-                  ti.dueDate, DateTime.now().add(Duration(days: 1))))
+              } else if (isSameDay(
+                  ti.dueDate, DateTime.now().add(const Duration(days: 1)))) {
                 tomorrow.add(ti);
-              else
+              } else {
                 later.add(ti);
-            });
+              }
+            }
+          }
 
           Widget _checkIfEmpty({Widget child}) {
             return sTasks.isEmpty
@@ -54,9 +56,8 @@ class _TasksTabState extends State<TasksTab> {
             return SafeArea(
               child: Center(
                 heightFactor: 1,
-                child: Container(
-                    child: SingleChildScrollView(
-                  physics: BouncingScrollPhysics(),
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
                   child: _checkIfEmpty(
                     child: Wrap(
                       spacing: 100,
@@ -72,7 +73,7 @@ class _TasksTabState extends State<TasksTab> {
                       ],
                     ),
                   ),
-                )),
+                ),
               ),
             );
           }

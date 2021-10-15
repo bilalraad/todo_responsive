@@ -6,10 +6,12 @@ import '../models/task.dart';
 class TaskController extends GetxController {
   static TaskController get to => Get.find();
 
+  final LocalDataBase _tasksDB;
+  TaskController(this._tasksDB);
+
   final _tasks = <Task>[].obs;
   final _taskCategories = <String>["Default", "Personal", "Work"].obs;
 
-  final _tasksDB = LocalDataBase('tasks');
   final _taskCategoriesDb = LocalDataBase('taskCategories');
 
   List<Task> get tasks => _tasks;
@@ -79,14 +81,13 @@ class TaskController extends GetxController {
     try {
       List result = await _taskCategoriesDb.getAllBoxData();
       if (result != null && result.isNotEmpty) {
-        result.forEach((listM) {
+        for (var listM in result) {
           _taskCategories.add(listM);
-        });
+        }
       }
     } catch (e) {
       print(e.toString());
     }
-    return null;
   }
 
   ///To add a new list to the App and save it to the local DB
@@ -98,7 +99,6 @@ class TaskController extends GetxController {
     } catch (e) {
       print(e.toString());
     }
-    return null;
   }
 
   ///To remove a list and The tasks that belongs to it
@@ -107,14 +107,13 @@ class TaskController extends GetxController {
   Future<void> removeList(String listName) async {
     try {
       _taskCategories.remove(listName);
-      _tasks.forEach((t) {
+      for (var t in _tasks) {
         if (t.belongsTo == listName) deleteTask(t.id);
-      });
+      }
       update(['tasks']);
       _taskCategoriesDb.removeDataFromBox(listName);
     } catch (e) {
       print(e.toString());
     }
-    return null;
   }
 }

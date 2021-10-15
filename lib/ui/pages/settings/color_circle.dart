@@ -6,7 +6,8 @@ class ColorCircle extends StatelessWidget {
   const ColorCircle({
     @required this.isSelected,
     @required this.hexColor,
-  });
+    Key key,
+  }) : super(key: key);
 
   final bool isSelected;
   final int hexColor;
@@ -17,7 +18,7 @@ class ColorCircle extends StatelessWidget {
     return InkWell(
       onTap: () => sc.setPrefColor(hexColor),
       child: Container(
-        margin: EdgeInsets.all(5),
+        margin: const EdgeInsets.all(5),
         decoration: BoxDecoration(
             border: isSelected
                 ? Border.all(width: 3, color: Color(hexColor))

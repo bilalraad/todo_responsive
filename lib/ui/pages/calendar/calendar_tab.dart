@@ -17,7 +17,7 @@ class CalendartTap extends StatefulWidget {
 }
 
 class _CalendartTapState extends State<CalendartTap> {
-  List<Task> _events = [];
+  final List<Task> _events = [];
   List<Task> _selectedEvents = [];
   DateTime selectedDate = DateTime.now();
 
@@ -40,7 +40,7 @@ class _CalendartTapState extends State<CalendartTap> {
           return Scaffold(
             body: SafeArea(
               child: SingleChildScrollView(
-                physics: BouncingScrollPhysics(),
+                physics: const BouncingScrollPhysics(),
                 child: Center(
                   child: Wrap(
                     spacing: 40,
@@ -67,7 +67,7 @@ class _CalendartTapState extends State<CalendartTap> {
             floatingActionButton: FloatingActionButton(
               onPressed: () => updateTask(context: context),
               backgroundColor: Theme.of(context).colorScheme.secondary,
-              child: Icon(Icons.add, color: Colors.white),
+              child: const Icon(Icons.add, color: Colors.white),
             ),
           );
         });

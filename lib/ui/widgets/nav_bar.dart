@@ -10,12 +10,13 @@ class CustomNavBar extends StatelessWidget {
   final int selectedIndex;
   final List<NavigationBarItem> navBarItems;
   final Function(int index) onTaped;
-  CustomNavBar({
+  const CustomNavBar({
     @required this.selectedWidgetBody,
     @required this.selectedIndex,
     @required this.navBarItems,
     @required this.onTaped,
-  });
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -47,17 +48,15 @@ class CustomNavBar extends StatelessWidget {
                   child: selectedWidgetBody,
                 ),
               ),
-              Container(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: _buildNavbarItems(),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: _buildNavbarItems(),
               ),
             ],
           ),
           desktop: Row(
             children: [
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width * 0.07,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -85,7 +84,8 @@ class NavigationBarItem extends StatelessWidget {
     @required this.label,
     @required this.iconPath,
     @required this.selected,
-  });
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

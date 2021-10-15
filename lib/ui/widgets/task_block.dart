@@ -44,10 +44,10 @@ class _TaskBlockState extends State<TaskBlock>
     ));
 
     priorityBGColor = widget.taskData.priority == TaskPriority.High
-        ? Color(0xFFD8334F)
+        ? const Color(0xFFD8334F)
         : widget.taskData.priority == TaskPriority.Medium
-            ? Color(0xFFE3A224)
-            : Color(0xFF66C749);
+            ? const Color(0xFFE3A224)
+            : const Color(0xFF66C749);
   }
 
   @override
@@ -67,11 +67,11 @@ class _TaskBlockState extends State<TaskBlock>
             mobile: double.infinity,
             desktop: 440,
             tablet: double.infinity),
-        margin: EdgeInsets.all(10),
+        margin: const EdgeInsets.all(10),
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(15),
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
                 blurRadius: 6, offset: Offset(0, 0), color: Colors.black26)
           ],
@@ -92,7 +92,7 @@ class _TaskBlockState extends State<TaskBlock>
                   },
                 ),
               ),
-              SizedBox(width: 20),
+              const SizedBox(width: 20),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -107,7 +107,7 @@ class _TaskBlockState extends State<TaskBlock>
                             ? widget.taskData.body.substring(0, 20)
                             : widget.taskData.body,
                     textType: TextType.smallest,
-                    textColor: Color(0xFF878787),
+                    textColor: const Color(0xFF878787),
                   ),
                   CustomText(
                     text: CustomDateFormatter.format(widget.taskData.dueDate),
@@ -116,12 +116,12 @@ class _TaskBlockState extends State<TaskBlock>
                   ),
                 ],
               ),
-              Spacer(),
+              const Spacer(),
               Container(
                 height: 30,
                 width: 90,
                 alignment: Alignment.centerRight,
-                margin: EdgeInsets.all(10),
+                margin: const EdgeInsets.all(10),
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(5),
                     color: priorityBGColor),
@@ -148,7 +148,7 @@ class CircleCheckbox extends StatelessWidget {
   final bool tristate;
   final MaterialTapTargetSize materialTapTargetSize;
 
-  CircleCheckbox({
+  const CircleCheckbox({
     Key key,
     @required this.value,
     this.tristate = false,

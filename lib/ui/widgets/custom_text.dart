@@ -23,7 +23,8 @@ class CustomText extends StatelessWidget {
     this.fontWeight,
     this.iprefText = false, //if the text should use the prefrences color
     this.textType = TextType.body,
-  });
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

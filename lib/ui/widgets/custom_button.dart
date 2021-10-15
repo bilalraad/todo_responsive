@@ -16,11 +16,12 @@ class Custombutton extends StatelessWidget {
     this.color,
     this.width,
     this.hieght,
-  });
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: width ?? 100,
       height: hieght ?? 40,
       child: ElevatedButton(

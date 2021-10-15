@@ -12,15 +12,15 @@ class CustomDateFormatter {
         DateFormat.Hm(Get.locale.languageCode).format(dateTime);
 
     if (isSameDay(localDateTime, now)) {
-      return 'Today, hour'.trParams({"hour": "$roughTimeString"});
+      return 'Today, hour'.trParams({"hour": roughTimeString});
     }
 
-    DateTime tomorrow = now.add(Duration(days: 1));
+    DateTime tomorrow = now.add(const Duration(days: 1));
 
     if (isSameDay(localDateTime, tomorrow)) {
-      return 'Tomorrow, hour'.trParams({"hour": "$roughTimeString"});
+      return 'Tomorrow, hour'.trParams({"hour": roughTimeString});
     }
     //will return something like 5/2/2021 10:30AM
-    return '${DateFormat.yMd(Get.locale.languageCode).add_jm().format(dateTime)}';
+    return DateFormat.yMd(Get.locale.languageCode).add_jm().format(dateTime);
   }
 }

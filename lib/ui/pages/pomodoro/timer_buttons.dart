@@ -5,7 +5,7 @@ import '../../../controllers/pomodoro_controller.dart';
 import '../../widgets/custom_button.dart';
 
 class TimerButtons extends StatefulWidget {
-  const TimerButtons();
+  const TimerButtons({Key key}) : super(key: key);
 
   @override
   _TimerButtonsState createState() => _TimerButtonsState();
@@ -26,10 +26,11 @@ class _TimerButtonsState extends State<TimerButtons> {
               padding: const EdgeInsets.all(5.0),
               child: Custombutton(
                 onPressed: () {
-                  if (isActive)
+                  if (isActive) {
                     pomodoroController.stopTimer(isByUser: true);
-                  else
+                  } else {
                     pomodoroController.startTimer();
+                  }
                 },
                 lable: isActive ? 'Stop' : 'Start',
                 color: isActive ? Colors.red : null,
@@ -41,16 +42,17 @@ class _TimerButtonsState extends State<TimerButtons> {
               child: Custombutton(
                 onPressed: isActive
                     ? () {
-                        if (!isPaused)
+                        if (!isPaused) {
                           pomodoroController.pauseTimer();
-                        else
+                        } else {
                           pomodoroController.startTimer();
+                        }
 
                         setState(() => isPaused = !isPaused);
                       }
                     : null,
                 lable: isPaused ? 'Play' : 'Pause',
-                color: isPaused ? Colors.green : Color(0xFFF2C94C),
+                color: isPaused ? Colors.green : const Color(0xFFF2C94C),
                 width: 200,
               ),
             ),

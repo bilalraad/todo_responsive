@@ -53,14 +53,14 @@ class SettingsController extends GetxController {
     _getlocaleFromDataBase();
     _getPrefColorFromDataBase();
     if (firstTime) {
-      Timer(Duration(seconds: 60),
+      Timer(const Duration(seconds: 60),
           () => _db.putDataIntoBox<bool>('firstTime', false));
     }
   }
 
   final _prefColor = 0xFF86C691.obs;
   final _themeMode = ThemeMode.system.obs;
-  final _locale = Locale('en').obs;
+  final _locale = const Locale('en').obs;
   final _firstTime = true.obs;
   Locale get locale => _locale.value;
   ThemeMode get themeMode => _themeMode.value;
@@ -146,22 +146,25 @@ class SettingsController extends GetxController {
     return ThemeData(
       visualDensity: VisualDensity.adaptivePlatformDensity,
       primarySwatch: Colors.grey,
-      primaryColor: isLightTheme ? Color(0xFFF5F5F5) : Color(0xFF494A67),
+      primaryColor:
+          isLightTheme ? const Color(0xFFF5F5F5) : const Color(0xFF494A67),
       brightness: isLightTheme ? Brightness.light : Brightness.dark,
-      backgroundColor: isLightTheme ? Color(0xFFFFFFFF) : Color(0xFF424360),
+      backgroundColor:
+          isLightTheme ? const Color(0xFFFFFFFF) : const Color(0xFF424360),
       bottomSheetTheme:
-          BottomSheetThemeData(backgroundColor: Color(0xFF737373)),
+          const BottomSheetThemeData(backgroundColor: Color(0xFF737373)),
       scaffoldBackgroundColor:
-          isLightTheme ? Color(0xFFFFFFFF) : Color(0xFF424360),
-      canvasColor: isLightTheme ? Colors.white : Color(0xFF494A67),
-      cardColor: isLightTheme ? Colors.white : Color(0xFF494A67),
+          isLightTheme ? const Color(0xFFFFFFFF) : const Color(0xFF424360),
+      canvasColor: isLightTheme ? Colors.white : const Color(0xFF494A67),
+      cardColor: isLightTheme ? Colors.white : const Color(0xFF494A67),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
-        backgroundColor: isLightTheme ? Colors.grey[100] : Color(0xFF494A67),
+        backgroundColor:
+            isLightTheme ? Colors.grey[100] : const Color(0xFF494A67),
         type: BottomNavigationBarType.fixed,
         unselectedItemColor: const Color(0xffC5C3E3),
       ),
       appBarTheme: AppBarTheme(
-          color: isLightTheme ? Colors.grey[100] : Color(0xFF494A67)),
+          color: isLightTheme ? Colors.grey[100] : const Color(0xFF494A67)),
       fontFamily: locale.languageCode == 'ar' ? 'Cairo' : 'OpenSans',
     );
   }

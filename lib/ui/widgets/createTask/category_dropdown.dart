@@ -7,8 +7,11 @@ import '../../../controllers/task_controller.dart';
 class CategoryDropDown extends StatelessWidget {
   final String currentCategory;
   final Function(String newCategory) onCategorySelected;
-  const CategoryDropDown(
-      {@required this.currentCategory, @required this.onCategorySelected});
+  const CategoryDropDown({
+    @required this.currentCategory,
+    @required this.onCategorySelected,
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -17,18 +20,18 @@ class CategoryDropDown extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        CustomText(
+        const CustomText(
           text: 'Category',
           padding: EdgeInsets.only(bottom: 5),
           textType: TextType.title,
         ),
         Container(
           width: 300,
-          padding: EdgeInsets.symmetric(horizontal: 5),
+          padding: const EdgeInsets.symmetric(horizontal: 5),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               color: Theme.of(context).primaryColor,
-              boxShadow: [
+              boxShadow: const [
                 BoxShadow(
                     offset: Offset(0, 0),
                     spreadRadius: 1.0,
@@ -42,7 +45,7 @@ class CategoryDropDown extends StatelessWidget {
                       value: tl,
                       child: CustomText(
                         text: tl,
-                        padding: EdgeInsets.only(left: 10),
+                        padding: const EdgeInsets.only(left: 10),
                       ),
                     ))
                 .toList(),

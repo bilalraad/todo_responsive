@@ -4,7 +4,7 @@ class LocalDataBase {
   /// to create an instance of the loclal DataBase with a specific box
   LocalDataBase(this._boxName);
 
-  String _boxName;
+  final String _boxName;
 
   /// If [defaultValue] is specified, it is returned in case the key does not
   /// exist.
@@ -40,7 +40,7 @@ class LocalDataBase {
       _box.close();
     } catch (e) {
       print(e.toString());
-      return null;
+      return;
     }
   }
 

@@ -9,7 +9,8 @@ import '../../../models/task.dart';
 class CalendarWidget extends StatefulWidget {
   final List<Task> events;
   final Function(DateTime selectedDay, DateTime focusedDay) onDaySelected;
-  CalendarWidget({this.events, this.onDaySelected});
+  const CalendarWidget({Key key, this.events, this.onDaySelected})
+      : super(key: key);
 
   @override
   _CalendarWidgetState createState() => _CalendarWidgetState();
@@ -30,7 +31,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
       decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(10)),
-      margin: EdgeInsets.all(20),
+      margin: const EdgeInsets.all(20),
       padding: EdgeInsets.all(
         getValueForScreenType<double>(
             context: context, mobile: 10, tablet: 10, desktop: 50),
@@ -42,7 +43,7 @@ class _CalendarWidgetState extends State<CalendarWidget> {
           weekdayStyle: TextStyle(color: textcolor, height: 1, fontSize: 12),
         ),
         focusedDay: selectedDate,
-        firstDay: DateTime.now().subtract(Duration(days: 1)),
+        firstDay: DateTime.now().subtract(const Duration(days: 1)),
         lastDay: DateTime(2050),
         calendarStyle: CalendarStyle(
           isTodayHighlighted: true,

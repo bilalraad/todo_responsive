@@ -5,12 +5,13 @@ import '../../widgets/custom_text.dart';
 class SettingsCard extends StatelessWidget {
   final String label;
   final Widget child;
-  SettingsCard({@required this.child, @required this.label});
+  const SettingsCard({Key key, @required this.child, @required this.label})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       width: getValueForScreenType<double>(
           context: context,
           mobile: double.infinity,
@@ -21,7 +22,7 @@ class SettingsCard extends StatelessWidget {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           color: Theme.of(context).backgroundColor,
-          boxShadow: [
+          boxShadow: const [
             BoxShadow(
                 offset: Offset(0, 0),
                 spreadRadius: 1.0,
@@ -35,7 +36,7 @@ class SettingsCard extends StatelessWidget {
           children: [
             CustomText(
               text: label,
-              padding: EdgeInsets.all(10),
+              padding: const EdgeInsets.all(10),
               textType: TextType.title,
             ),
             child,

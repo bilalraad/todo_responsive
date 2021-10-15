@@ -11,7 +11,8 @@ class DateTimePickerWidget extends StatelessWidget {
   const DateTimePickerWidget({
     @required this.onDateTimeSelected,
     @required this.currentDateTime,
-  });
+    Key key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class DateTimePickerWidget extends StatelessWidget {
         context: context,
         initialDate: currentDateTime,
         initialDatePickerMode: DatePickerMode.day,
-        firstDate: DateTime.now().subtract(Duration(days: 1)),
+        firstDate: DateTime.now().subtract(const Duration(days: 1)),
         lastDate: DateTime(2101),
       );
       if (picked != null) {
@@ -52,14 +53,14 @@ class DateTimePickerWidget extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        CustomText(
+        const CustomText(
           text: 'Date & Time',
           padding: EdgeInsets.only(bottom: 5),
           textType: TextType.title,
         ),
         Container(
           width: 330,
-          margin: EdgeInsets.symmetric(horizontal: 10),
+          margin: const EdgeInsets.symmetric(horizontal: 10),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [

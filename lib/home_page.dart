@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 
 import './controllers/task_controller.dart';
 import './models/task.dart';
-import './ui/widgets/nav_bar.dart';
 import './ui/pages/calendar/calendar_tab.dart';
-import './ui/pages/tasks_tab.dart';
 import './ui/pages/pomodoro/pomodoro_tab.dart';
 import './ui/pages/settings/settings_tab.dart';
+import './ui/pages/tasks_tab.dart';
+import './ui/widgets/nav_bar.dart';
 
 class TodoAppState extends ChangeNotifier {
   int _selectedIndex;
@@ -73,16 +73,16 @@ class TodoRouteInformationParser extends RouteInformationParser<TodoRoutePath> {
   @override
   RouteInformation restoreRouteInformation(TodoRoutePath configuration) {
     if (configuration is TasksListPath) {
-      return RouteInformation(location: '/home');
+      return const RouteInformation(location: '/home');
     }
     if (configuration is SettingsPath) {
-      return RouteInformation(location: '/settings');
+      return const RouteInformation(location: '/settings');
     }
     if (configuration is PomodoroPath) {
-      return RouteInformation(location: '/pomodoro');
+      return const RouteInformation(location: '/pomodoro');
     }
     if (configuration is CalendarPath) {
-      return RouteInformation(location: '/calendar');
+      return const RouteInformation(location: '/calendar');
     }
     if (configuration is TaskDetailsPath) {
       return RouteInformation(location: '/task/${configuration.id}');
@@ -93,6 +93,7 @@ class TodoRouteInformationParser extends RouteInformationParser<TodoRoutePath> {
 
 class TodoRouterDelegate extends RouterDelegate<TodoRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<TodoRoutePath> {
+  @override
   final GlobalKey<NavigatorState> navigatorKey;
 
   TodoAppState appState = TodoAppState();
@@ -142,19 +143,19 @@ class TodoRouterDelegate extends RouterDelegate<TodoRoutePath>
   }
 
   @override
-  Future<void> setNewRoutePath(TodoRoutePath path) async {
-    if (path is TasksListPath) {
+  Future<void> setNewRoutePath(TodoRoutePath configuration) async {
+    if (configuration is TasksListPath) {
       appState.selectedIndex = 0;
       appState.selectedTask = null;
-    } else if (path is CalendarPath) {
+    } else if (configuration is CalendarPath) {
       appState.selectedIndex = 1;
-    } else if (path is PomodoroPath) {
+    } else if (configuration is PomodoroPath) {
       appState.selectedIndex = 2;
-    } else if (path is SettingsPath) {
+    } else if (configuration is SettingsPath) {
       appState.selectedIndex = 3;
-    } else if (path is TaskDetailsPath) {
+    } else if (configuration is TaskDetailsPath) {
       appState.selectedIndex = 0;
-      appState.setSelectedTaskById(path.id);
+      appState.setSelectedTaskById(configuration.id);
     }
   }
 }
@@ -180,9 +181,10 @@ class TaskDetailsPath extends TodoRoutePath {
 class AppShell extends StatefulWidget {
   final TodoAppState appState;
 
-  AppShell({
+  const AppShell({
+    Key key,
     @required this.appState,
-  });
+  }) : super(key: key);
 
   @override
   _AppShellState createState() => _AppShellState();
@@ -192,6 +194,7 @@ class _AppShellState extends State<AppShell> {
   InnerRouterDelegate _routerDelegate;
   ChildBackButtonDispatcher _backButtonDispatcher;
 
+  @override
   void initState() {
     super.initState();
     _routerDelegate = InnerRouterDelegate(widget.appState);
@@ -258,7 +261,8 @@ class _AppShellState extends State<AppShell> {
 
 class InnerRouterDelegate extends RouterDelegate<TodoRoutePath>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<TodoRoutePath> {
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+  @override
+  final navigatorKey = GlobalKey<NavigatorState>();
   TodoAppState get appState => _appState;
   TodoAppState _appState;
   set appState(TodoAppState value) {
@@ -277,24 +281,24 @@ class InnerRouterDelegate extends RouterDelegate<TodoRoutePath>
       key: navigatorKey,
       pages: [
         if (appState.selectedIndex == 0) ...[
-          FadeAnimationPage(
+          const FadeAnimationPage(
             child: TasksTab(),
             key: ValueKey('TaskListPage'),
           ),
         ] else if (appState.selectedIndex == 1)
-          FadeAnimationPage(
+          const FadeAnimationPage(
             child: CalendartTap(),
             key: ValueKey('CalendarPage'),
           )
         else if (appState.selectedIndex == 2)
-          FadeAnimationPage(
+          const FadeAnimationPage(
             child: PomodoroTab(),
             key: ValueKey('PomodoroPage'),
           )
         else
           FadeAnimationPage(
             child: SettingsTap(),
-            key: ValueKey('SettingsPage'),
+            key: const ValueKey('SettingsPage'),
           ),
       ],
       onPopPage: (route, result) {
@@ -306,7 +310,7 @@ class InnerRouterDelegate extends RouterDelegate<TodoRoutePath>
   }
 
   @override
-  Future<void> setNewRoutePath(TodoRoutePath path) async {
+  Future<void> setNewRoutePath(TodoRoutePath configuration) async {
     // This is not required for inner router delegate because it does not
     // parse route
     assert(false);
@@ -316,8 +320,9 @@ class InnerRouterDelegate extends RouterDelegate<TodoRoutePath>
 class FadeAnimationPage extends Page {
   final Widget child;
 
-  FadeAnimationPage({Key key, this.child}) : super(key: key);
+  const FadeAnimationPage({Key key, this.child}) : super(key: key);
 
+  @override
   Route createRoute(BuildContext context) {
     return PageRouteBuilder(
       settings: this,

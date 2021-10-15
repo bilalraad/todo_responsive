@@ -5,7 +5,7 @@ import '../../../controllers/pomodoro_controller.dart';
 import '../../widgets/custom_text.dart';
 
 class SelectTimerTypeWidget extends StatefulWidget {
-  const SelectTimerTypeWidget();
+  const SelectTimerTypeWidget({Key key}) : super(key: key);
 
   @override
   _SelectTimerTypeWidgetState createState() => _SelectTimerTypeWidgetState();
@@ -18,7 +18,7 @@ class _SelectTimerTypeWidgetState extends State<SelectTimerTypeWidget> {
     Widget _typeChip({String label, TimerType type}) {
       return Container(
         width: 150,
-        margin: EdgeInsets.all(5),
+        margin: const EdgeInsets.all(5),
         decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
           borderRadius: BorderRadius.circular(10),
